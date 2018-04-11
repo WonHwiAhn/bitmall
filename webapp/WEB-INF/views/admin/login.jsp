@@ -12,9 +12,9 @@
 <br><br><br><br><br><br><br><br><br><br>
 <input type="hidden" name="no" value="${authUser.no}">
 
-<form name="form1" action="/ad/product" method="post">
+<form name="form1" action="${pageContext.servletContext.contextPath}/user/auth" method="post">
 
-<table  bordercolor="purple" border width='330' cellpadding='4' cellspacing='0'>
+<table align="center" bordercolor="purple" border width='330' cellpadding='4' cellspacing='0'>
 	<tr>
 		<td>
 			<table bgcolor="#feffd7" border="0" width="330" cellpadding='0' cellspacing='0'>
@@ -29,12 +29,12 @@
 			    </tr>
 				<tr>
 					<td width="106" valign="middle" align="right">&nbsp;<img src="${pageContext.servletContext.contextPath }/assets/images/admin/id.gif" width="20" height="16" border="0"></td>
-					<td width="212" valign='center'>&nbsp;<input type="text" name="adminid" maxlength="12" size="14"></td>
+					<td width="212" valign='center'>&nbsp;<input type="text" id="admin-id" name="id" maxlength="12" size="14" required></td>
 				</tr>
 			    <tr>
 					<td width="106" valign="middle" align="right">&nbsp;<img src="${pageContext.servletContext.contextPath }/assets/images/admin/pw.gif" width="75" height="16" border="0"></td>
 					<td width="212" valign='center'>
-		          		&nbsp;<input type="password" name="adminpw" maxlength="12" size="14">
+		          		&nbsp;<input type="password" name="password" id="password" maxlength="12" size="14">
 					</td>
 			    </tr>
 				<tr>

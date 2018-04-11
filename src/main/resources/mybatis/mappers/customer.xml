@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="customer">
+	<!-- <select id="getList" parameterType="long" resultType="uservo">
+		<![CDATA[
+			select no, name, content, date_format(reg_date, '%Y-%M')
+			from guestbook]]>
+			<if test="_parameter > 0">
+				<![CDATA[where no < #{_parameter}]]>
+			</if>
+			<![CDATA[
+			order by reg_date desc
+				limit 0, 5
+		]]>
+	</select>	 -->
+	<insert id="insert" parameterType="customervo">
+		INSERT INTO customer 
+		VALUES(null, #{id}, password(#{password}), #{name}, #{birth}, #{telNo}, #{phoneNo}, #{zipCode}, #{address}, #{email}, 5)
+	</insert>
+	
+	<select id="checkId" parameterType="String" resultType="String">
+		SELECT id FROM customer WHERE id = #{id}
+	</select>
+	
+	<!-- 유저 정보 가져오기 vo를 통해서 (1명꺼) -->
+	<select id="getCustomer" parameterType="customervo" resultType="customervo">
+		SELECT no, id, name, birth, tel_no as telNo, 
+		       phone_no as phoneNo, zipcode as zipCode, 
+		       address, email, auth
+		  FROM customer
+		 WHERE id = #{id}
+		   AND password = password(#{password})
+	</select>
+	
+	<!-- 유저 정보 가져오기 id를 통해서 (1명꺼) -->
+	<select id="getCustomerId" parameterType="String" resultType="customervo">
+		SELECT no, id, name, birth, tel_no as telNo, 
+		       phone_no as phoneNo, zipcode as zipCode, 
+		       address, email, auth
+		  FROM customer
+		 WHERE id = #{id}
+	</select>
+	
+	<!-- 유저 정보 수정 (패스워드까지 수정) -->
+	<update id="update" parameterType="customervo">
+		UPDATE customer 
+		   SET name=#{name}, password=password(#{password}), 
+		   	   birth=#{birth}, tel_no=#{telNo}, phone_no=#{phoneNo}, 
+		       zipcode=#{zipCode}, address=#{address}, email=#{email}
+		 WHERE id=#{id}
+	</update>
+	
+	<!-- 유저 정보 수정 (패스워드 제외하고 수정) -->
+	<update id="updateWithoutPass" parameterType="customervo">
+		UPDATE customer 
+		   SET name=#{name}, birth=#{birth}, 
+		       tel_no=#{telNo}, phone_no=#{phoneNo}, 
+		       zipcode=#{zipCode}, address=#{address}, email=#{email}
+		 WHERE id=#{id}
+	</update>
+</mapper>
+
+

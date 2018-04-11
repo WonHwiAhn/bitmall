@@ -7,6 +7,54 @@
 	<title>비트닷컴 쇼핑몰</title>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8">
 	<link href="${pageContext.servletContext.contextPath }/assets/css/font.css" rel="stylesheet" type="text/css">
+	<script type="text/javascript" src="${pageContext.request.contextPath }/assets/js/jquery/jquery-1.9.0.js"></script>
+	
+	<script>
+		$(function(){
+			/* $('#login').click(function(){
+				console.log(234);
+				
+				return;
+			}); */
+			/* $('#form2').submit(function(){
+				event.preventDefault();
+				console.log(234);
+				
+				var datas = $('#form2').serialize();
+				
+				$.ajax({
+					url:"/bitmall/user/auth",
+					type:"post",
+					data:datas,
+					dataType:"json",
+					success:function(response){
+						console.log(response);
+					},
+					error:function(request,status,error){
+						console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+					}
+				}); */
+				 
+				<%-- $.post('/bitmall/user/auth', 
+					   /* $('#form2').serialize() */
+					   $('#form2').serialize()
+				).
+				done(function(){ //로그인에 성공했을 때
+					alert(<%= session.getAttribute("authUser") %>);
+					//window.location.replace('/bitmall/index');
+				}).
+				fail(function(){
+					alert('입력하신 아이디와 패스워드가 틀렸습니다.');
+				});
+				
+				//return
+				alert(<%= session.getAttribute("authUser") %>); --%>
+			//});
+			
+			
+			
+		});
+	</script>
 </head>
 <body style="margin:0">
 <jsp:include page="/WEB-INF/views/include/head.jsp"/>
@@ -53,23 +101,23 @@
 												</table>
 												<table border="0" cellpadding="0" cellspacing="0" width="320">
 													<!-- form2 시작 ------>
-													<form name = "form2" method = "post" action = "/user/member_loginok">
+													<form name = "form2" id="form2" method = "post" action = "/bitmall/user/auth">
 													<tr>
 														<td width="220" height="25">
 															<p style="padding-left:10px;">
 															<img align="absmiddle" src="${pageContext.servletContext.contextPath }/assets/images/login_id.gif" width="40" height="13" border="0"> 
-															<input type="text" name="id" size="20" maxlength="12" class="cmfont1">
+															<input type="text" name="id" size="20" maxlength="12" class="cmfont1" id="id">
 															</p>
 														</td>
 														<td width="100" rowspan="2">
-															<input type="image" align="absmiddle" src="${pageContext.servletContext.contextPath }/assets/images/b_login.gif" width="50" border="0">
+															<input type="image" alt="로그인버튼" id="login" align="absmiddle" src="${pageContext.servletContext.contextPath }/assets/images/b_login.gif" width="50" border="0">
 														</td>
 													</tr>
 													<tr>
 														<td width="220" height="25">
 															<p style="padding-left:10px;">
 															<img align="absmiddle" src="${pageContext.servletContext.contextPath }/assets/images/login_pw.gif" width="40" height="13" border="0"> 
-															<input type="password" name="password" size="20" maxlength="12" class="cmfont1">
+															<input type="password" id="password" name="password" size="20" maxlength="12" class="cmfont1">
 															</p>
 														</td>
 													</tr>
@@ -91,8 +139,8 @@
 													<tr>
 														<td height="30"><img src="${pageContext.servletContext.contextPath }/assets/images/login_image6.gif" border="0"></td>
 														<td height="30">
-															<a href="#" onfocus="this.blur()"><img src="${pageContext.servletContext.contextPath }/assets/images/b_id.gif" width="64" height="19" border="0" align="absmiddle"></a> &nbsp; 
-															<a href="#" onfocus="this.blur()"><img src="${pageContext.servletContext.contextPath }/assets/images/b_pw.gif" width="64" height="19" border="0" align="absmiddle"></a>
+															<a href="#" onfocus="this.blur()"><img src="${pageContext.servletContext.contextPath }/assets/images/b_id.gif" alt="아이디 찾기" width="64" height="19" border="0" align="absmiddle"></a> &nbsp; 
+															<a href="#" onfocus="this.blur()"><img src="${pageContext.servletContext.contextPath }/assets/images/b_pw.gif" alt="비밀번호 찾기" width="64" height="19" border="0" align="absmiddle"></a>
 														</td>
 													</tr>
 												</table>												

@@ -7,6 +7,181 @@
 	<title>비트닷컴 쇼핑몰</title>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8">
 	<link href="${pageContext.servletContext.contextPath }/assets/css/font.css" rel="stylesheet" type="text/css">
+	<script type="text/javascript" src="${pageContext.request.contextPath }/assets/js/jquery/jquery-1.9.0.js"></script>
+	<script>
+		$(function(){
+			var birthData = '${vo.birth}'.split("-");
+			var phoneData = '${vo.phoneNo}'.split("-");
+			var telData = '${vo.telNo}'.split("-");
+			
+			// 생년월일 분할 데이터 삽입
+			$('#birth1').val(birthData[0]);
+			$('#birth2').val(birthData[1]);
+			$('#birth3').val(birthData[2]);
+			
+			// 핸드폰 번호 분할 삽입
+			$('#phone1').val(phoneData[0]);
+			$('#phone2').val(phoneData[1]);
+			$('#phone3').val(phoneData[2]);
+			
+			// 전화번호 분할 삽입
+			$('#tel1').val(telData[0]);
+			$('#tel2').val(telData[1]);
+			$('#tel3').val(telData[2]);
+			
+			$('#form2').submit(function(){ 
+				event.preventDefault();
+				
+				var datas = $(this).serialize();
+				
+				var data = {};
+				
+				$.each($(this).serializeArray(), function(idx, vo){
+					// vo 자체에 name, value 값을 가진 형태로 들어옴.
+					data[vo.name] = vo.value;
+				});
+				
+				console.log(data['password2'].length);
+				console.log(data['password'].length);
+				
+				// password2 input 값이 공백일 경우
+				//if(typeof data['password2'] != 'undefined' && data['password2'] != '' && data['password2'] != null){
+				// password칸 중 1개라도 비어있을 경우 칸을 채우라고 요청한다
+				// 단, 두개다 공백일 때는 수정을 안해도되므로 유효성 검사 없이 넘어간다.
+				if((data['password2'].length != 0 && data['password'].length == 0) ||
+				   (data['password2'].length == 0 && data['password'].length != 0)){
+					
+					if(data['password2'].length == 0){
+						alert('비밀번호를 확인에 비밀번호를 입력해주세요 :)');
+						$('#password2').focus();
+						return;
+					}else if(data['password'].length == 0){
+						alert('비밀번호를 입력해주세요 :)');
+						$('#password').focus();
+						return;
+					}
+				}
+				
+				// 패스워드 입력창 2가지 값 비교
+				if(data['password2'].length != 0 && data['password'].length != 0){
+					if(data['password2'] != data['password']){
+						alert('비밀번호와 비밀번호 확인의 값이 다릅니다.');
+						$('#password').focus();
+						return;
+					}
+				}
+				
+				// password2 input 값이 공백일 경우
+				/* if(typeof data['password'] != 'undefined' && data['password'] != '' && data['password'] != null){
+					alert('패스워드 확인을 해주세요 :)');
+					
+					$('#password2').focus();
+					return;
+				} */
+				
+				// name input 값이 공백일 경우
+				if(data['name'] == ''){
+					alert('이름을 입력해주세요!');
+					
+					$('#name').focus();
+					return;
+				}
+				
+				// birthday input 값이 공백일 경우
+				if(data['birth1'] == '' || data['birth2'] == '' || data['birth3'] == ''){
+					alert('생년월일을 입력해주세요!');
+					
+					$('#birthday1').focus();
+					return;
+				}
+				
+				// tel 혹은 phone input 값이 공백일 경우
+				// 이 경우에는 2중 1개만 입력만 해도 pass
+				if(data['tel1'] == '' || data['tel2'] == '' || data['tel3'] == ''){
+					if(data['phone1'] == '' || data['phone2'] == '' || data['phone3'] == ''){
+						alert('전화번호 혹은 핸드폰번호를 입력하셔야됩니다.');
+						
+						$('#phone1').focus();
+						return;
+					}
+				}
+				
+				//우편번호
+				if(data['zip1'] == '' || data['zip2'] == ''){
+					alert('우편번호를 입력해주세요');
+					
+					// 이 부분은 나중에 바로 링크 열어도 될 듯? window써서
+					$('#zip1').focus();
+					return;
+				}
+				
+				// address input 값이 공백일 경우
+				if(data['address'] == ''){
+					alert('주소를 입력해주세요');
+					
+					// 이 부분은 나중에 바로 링크 열어도 될 듯? window써서
+					$('#address').focus();
+					return;
+				}
+				
+				// email input 값이 공백일 경우
+				if(data['email'] == ''){
+					alert('이메일을 입력해주세요');
+					
+					// 이 부분은 나중에 바로 링크 열어도 될 듯? window써서
+					$('#email').focus();
+					return;
+				}
+				
+				console.log(JSON.stringify(data));
+				
+				//// validation을 다 통과할 경우 생년월일, 폰넘버 , zipconde 값을 붙여준다.
+				data['birth'] = data['birth1'] + '-' +
+								data['birth2'] + '-' +
+								data['birth3'] ;
+				
+				// zipCode 생성
+				data['zipCode'] = data['zip1'] + '-' + data['zip2'];
+				
+				// 전화번호와 핸드폰은 2개중 1개만 있을 때를 구별해줘야함.
+				if(data['tel1'] != '' && data['tel2'] != '' && data['tel3'] != ''){
+					data['telNo'] = data['tel1'] + '-' +
+									data['tel2'] + '-' +
+									data['tel3'];
+				}
+				
+				if(data['phone1'] != '' && data['phone2'] != '' && data['phone3'] != ''){
+					data['phoneNo'] = data['phone1'] + '-' +
+									  data['phone2'] + '-' +
+									  data['phone3'];
+				}
+				
+				// submit해주는 부분
+				$.ajax({
+					url:"/bitmall/api/user/member_modify",
+					type:"post",
+					dataType:"json",
+					contentType:"application/json",
+					data:JSON.stringify(data),
+					success:function(response){
+						console.log(response);
+						if(response.data == 'success'){
+							/* $('#form2').attr('action', '/bitmall/user/login');
+							$('#form2').submit(); */
+							window.location.replace("/bitmall/user/member_modify_success");
+						}else{
+							alert('failed to modify your data');
+						}
+					},
+					error:function(){
+						alert('failed');
+					}
+				});
+				//console.log(datas);
+				return ;
+			});
+		});
+	</script>
 </head>
 <body style="margin:0">
 <jsp:include page="/WEB-INF/views/include/head.jsp"/>
@@ -40,7 +215,7 @@
 				<tr><td height="10"></td></tr>
 			</table>
 
-			<form name="form2" method="post" action="/user/member_modifying/${authUser.no }">
+			<form id="form2" name="form2" method="post" action="/user/member_modifying/${authUser.no }">
 			<table border="0" cellpadding="5" cellspacing="1" width="685" bgcolor="cccccc">
 				<tr>
 					<td align="center" bgcolor="efefef">
@@ -53,8 +228,8 @@
 												<img align="absmiddle" src="${pageContext.servletContext.contextPath }/assets/images/i_dot.gif" border="0"> <font color="898989"><b>아이디</b></font>
 											</td>
 											<td>
-												<input type="text" name="id" maxlength = "12" value="${vo.id }" size="20" class="cmfont1"> 
-												<a href="javascript:check_id();"><img align="absmiddle" src="${pageContext.servletContext.contextPath }/assets/images/b_idcheck.gif" border="0"></a>
+												<input type="text" name="id" maxlength = "12" value="${vo.id }" size="20" class="cmfont1" readonly> 
+												<%-- <a href="javascript:check_id();"><img align="absmiddle" src="${pageContext.servletContext.contextPath }/assets/images/b_idcheck.gif" border="0"></a> --%>
 											</td>
 										</tr>
 										<tr>
@@ -62,7 +237,7 @@
 												<img align="absmiddle" src="${pageContext.servletContext.contextPath }/assets/images/i_dot.gif" border="0"> <font color="898989"><b>비밀번호</b></font>
 											</td>
 											<td>
-												<input TYPE="password" name="password1" maxlength = "10" size="20" class="cmfont1">
+												<input TYPE="password" id="password" name="password" maxlength = "10" size="20" class="cmfont1">
 											</td>
 										</tr>
 										<tr>
@@ -70,7 +245,7 @@
 												<img align="absmiddle" src="${pageContext.servletContext.contextPath }/assets/images/i_dot.gif" border="0"> <font color="898989"><b>비밀번호 확인</b></font>
 											</td>
 											<td>
-												<input TYPE="password" name="password2" maxlength = "10" size="20" class="cmfont1">
+												<input TYPE="password" id="password2" name="password2" maxlength = "10" size="20" class="cmfont1">
 											</td>
 										</tr>
 										<tr><td colspan="2" height="10"></td></tr>
@@ -83,7 +258,7 @@
 												<img align="absmiddle" src="${pageContext.servletContext.contextPath }/assets/images/i_dot.gif" border="0"> <font color="898989"><b>이 름</b></font>
 											</td>
 											<td>
-												<input type="text" name="name" maxlength = "10" value = "${vo.name }" size="20" class="cmfont1">
+												<input type="text" id="name" name="name" maxlength = "10" value = "${vo.name }" size="20" class="cmfont1">
 											</td>
 										</tr>
 										<tr>
@@ -91,9 +266,9 @@
 												<img align="absmiddle" src="${pageContext.servletContext.contextPath }/assets/images/i_dot.gif" border="0"> <font color="898989"><b>생년월일</b></font>
 											</td>
 											<td>
-												<input type="text" name='birthday1' size = "4" maxlength = "4" value = "${birthday1 }" class="cmfont1"> <font color="898989">년</font> 
-												<input type="text" name='birthday2' size = "2" maxlength = "2" value = "${birthday2 }" class="cmfont1"> <font color="898989">월</font> 
-												<input type="text" name='birthday3' size = "2" maxlength = "2" value = "${birthday3 }" class="cmfont1"> <font color="898989">일</font> 
+												<input type="text" name='birth1' id="birth1" size = "4" maxlength = "4" class="cmfont1"> <font color="898989">년</font> 
+												<input type="text" name='birth2' id="birth2" size = "2" maxlength = "2" class="cmfont1"> <font color="898989">월</font> 
+												<input type="text" name='birth3' id="birth3" size = "2" maxlength = "2" class="cmfont1"> <font color="898989">일</font> 
 												<!-- <input type="radio" name='sm' value = "1" checked> <font color="898989">양력</font> 
 												<input type="radio" name='sm' value = "2" > <font color="898989">음력</font></td> -->
 										</tr>
@@ -107,9 +282,9 @@
 												<img align="absmiddle" src="${pageContext.servletContext.contextPath }/assets/images/i_dot.gif" border="0"> <font color="898989"><b>전화 번호</b></font>
 											</td>
 											<td>
-												<input type="text" name='tel1' size = "4" maxlength = "4" value = "${tel1 }" class="cmfont1"><font color="898989">-</font>
-												<input type="text" name='tel2' size = "4" maxlength = "4" value = "${tel2 }" class="cmfont1"><font color="898989">-</font>
-												<input type="text" name='tel3' size = "4" maxlength = "4" value = "${tel3 }" class="cmfont1">
+												<input type="text" id="tel1" name='tel1' size = "4" maxlength = "4" class="cmfont1"><font color="898989">-</font>
+												<input type="text" id="tel2" name='tel2' size = "4" maxlength = "4" class="cmfont1"><font color="898989">-</font>
+												<input type="text" id="tel3" name='tel3' size = "4" maxlength = "4" class="cmfont1">
 											</td>
 										</tr>
 										<tr>
@@ -117,9 +292,9 @@
 												<img align="absmiddle" src="${pageContext.servletContext.contextPath }/assets/images/i_dot.gif" border="0"> <font color="898989"><b>핸드폰 번호</b></font>
 											</td>
 											<td>
-												<input type="text" name='phone1' size = "4" maxlength = "4" value = "${phone1 }" class="cmfont1"><font color="898989">-</font>
-												<input type="text" name='phone2' size = "4" maxlength = "4" value = "${phone2 }" class="cmfont1"><font color="898989">-</font>
-												<input type="text" name='phone3' size = "4" maxlength = "4" value = "${phone3 }" class="cmfont1">
+												<input type="text" id="phone1" name='phone1' size = "4" maxlength = "4" value = "${phone1 }" class="cmfont1"><font color="898989">-</font>
+												<input type="text" id="phone2" name='phone2' size = "4" maxlength = "4" value = "${phone2 }" class="cmfont1"><font color="898989">-</font>
+												<input type="text" id="phone3" name='phone3' size = "4" maxlength = "4" value = "${phone3 }" class="cmfont1">
 											</td>
 										</tr>
 										<tr>
@@ -127,10 +302,10 @@
 												<img align="absmiddle" src="${pageContext.servletContext.contextPath }/assets/images/i_dot.gif" border="0"> <font color="898989"><b>주 소</b></font>
 											</td>
 											<td>
-												<input type="text" name='zip1' size = "4" maxlength = "3" value = "762" class="cmfont1"><font color="898989">-</font>
-												<input type="text" name='zip2' size = "4" maxlength = "3" value = "634" class="cmfont1"> 
+												<input type="text" id="zip1" name='zip1' size = "4" maxlength = "3" value = "762" class="cmfont1"><font color="898989">-</font>
+												<input type="text" id="zip2" name='zip2' size = "4" maxlength = "3" value = "634" class="cmfont1"> 
 												<a href="javascript:FindZip(0)"><img align="absmiddle" src="${pageContext.servletContext.contextPath }/assets/images/b_zip.gif" border="0"></a><br>
-												<input type="text" name='address' size = "50" maxlength = "200" value = "${vo.address }" class="cmfont1"><br>
+												<input type="text" id="address" name='address' size = "50" maxlength = "200" value = "${vo.address }" class="cmfont1"><br>
 											</td>
 										</tr>
 										<tr>
@@ -138,7 +313,7 @@
 												<img align="absmiddle" src="${pageContext.servletContext.contextPath }/assets/images/i_dot.gif" border="0"> <font color="898989"><b>E-Mail</b></font>
 											</td>
 											<td>
-												<input type="text" name='email' size = "50" maxlength = "50" value = "${vo.email }" class="cmfont1">
+												<input type="text" id="email" name='email' size = "50" maxlength = "50" value = "${vo.email }" class="cmfont1">
 											</td>
 										</tr>
 									</table>

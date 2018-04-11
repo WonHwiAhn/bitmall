@@ -7,6 +7,39 @@
 	<title>비트닷컴 쇼핑몰</title>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8">
 	<link href="${pageContext.servletContext.contextPath }/assets/css/font.css" rel="stylesheet" type="text/css">
+	<script type="text/javascript" src="${pageContext.request.contextPath }/assets/js/jquery/jquery-1.9.0.js"></script>
+	<style>
+		#reg-button{
+			
+		}
+	</style>
+	<script>
+		$(function(){
+			if($('#agree').is(':checked')){
+				$('#agree').prop('checked', false);
+			};
+			
+			$('#agree').change(function(){
+				if($('#agree').is(':checked')){
+					$('#reg-button').css('display', 'inline');
+				}else{
+					$('#reg-button').css('display', 'none');
+				}
+			});
+			
+			// 동의함에 체크가 됬을 경우
+			$('#agree-click').click(function(event){
+				event.preventDefault();
+				$('#agree').prop('checked', true);
+				$('#reg-button').css('display', 'inline');
+			});
+			
+			// 가입 버튼 눌렀을 경우
+			$('#reg-button').click(function(){
+				window.location = "${pageContext.servletContext.contextPath }/user/member_join";
+			})
+		});
+	</script>
 </head>
 <body style="margin:0">
 <jsp:include page="/WEB-INF/views/include/head.jsp"/>
@@ -26,7 +59,7 @@
 
 
 			<!--  현재 페이지 자바스크립  -------------------------------------------->
-			<script language = "javascript">
+			<!-- <script language = "javascript">
 				function CheckAgree() 
 				{
 					if (form2.agree.checked == false) 
@@ -36,7 +69,7 @@
 					}
 					location.href = "/user/member_join";
 				}
-			</script>
+			</script> -->
 
 			<table border="0" cellpadding="0" cellspacing="0" width="747">
 				<tr><td height="13"></td></tr>
@@ -98,7 +131,7 @@
 											<td height="30">
 												<!-- form2  시작 --->
 												<form name = "form2">
-												<input type="checkbox" name="agree" value="ok">
+												<input type="checkbox" id="agree" name="agree" value="ok">
 												이용약관 내용에 동의하시면 선택해 주십시오.
 												</form>
 												<!-- form2 끝 --->
@@ -115,8 +148,9 @@
 			<table border="0" cellpadding="0" cellspacing="0" width="685" class="cmfont">
 				<tr>
 					<td height="45" align="right">
-						<a href="javascript:CheckAgree()"><img src="${pageContext.servletContext.contextPath }/assets/images/b_agreeok.gif" border="0"></a> 
-						<a href="index.html"><img src="${pageContext.servletContext.contextPath }/assets/images/b_agreeno.gif" border="0"></a>
+						<a href="#" id="agree-click"><img src="${pageContext.servletContext.contextPath }/assets/images/b_agreeok.gif" border="0"></a> 
+						<%-- <a href=""><img src="${pageContext.servletContext.contextPath }/assets/images/b_agreeno.gif" border="0"></a> --%>
+						<input type="button" value="가입하러가즈아~" id="reg-button" style="display:none;">
 					</td>
 				</tr>
 			</table>
@@ -131,7 +165,7 @@
 
 
 <!-- 화면 하단 부분 : 회사정보/회사소개/이용정보/개인보호정책 ... ---------------------------->
-<br><br>
+<%--<br><br>
 <table width="959" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
 	<tr> 
 		<td background="${pageContext.servletContext.contextPath }/assets/images/footer_bg.gif" height="11"></td>
@@ -188,8 +222,7 @@
 			</table>
 		</td>
 	</tr>
-</table>
-<br><br>
+</table>--%>
 <jsp:include page="/WEB-INF/views/include/footer.jsp"/>
 </body>
 </html>

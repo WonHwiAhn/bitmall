@@ -22,6 +22,7 @@
 							                    <td width='100'><font color='#0457A2'>▶ </font><a href='jumun'><font color='#0457A2'>주문관리</font></a></td>
 							                    <td width='100'><font color='#0457A2'>▶ </font><a href='opt'><font color='#0457A2'>옵션관리</font></a></td>
 							                    <td width='100'><font color='#0457A2'>▶ </font><a href='faq'><font color='#0457A2'>FAQ관리</font></a></td>
+							                    <td width='100'><font color='#0457A2'>▶ </font><a href='${pageContext.servletContext.contextPath}/user/member_logout'><font color='#0457A2'>로그아웃</font></a></td>
 						                  	</tr>
 	                					</table>
 	              					</div>
