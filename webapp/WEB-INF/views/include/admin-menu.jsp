@@ -2,27 +2,30 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<table width='900' border='0' cellspacing='0' cellpadding='3'>
+<link href="${pageContext.servletContext.contextPath }/assets/css/admin_menu.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.servletContext.contextPath }/assets/css/paging.css" rel="stylesheet" type="text/css">
+
+<table class="first">
 <tr> 
-  <td bgcolor='#F7F7F7'>
-    <div align='center'> 
+  <td class="td-total">
+    <div class="first-div"> 
  	<br>
-	 	<table width='780' border='0' cellspacing='0' cellpadding='0'>
+	 	<table class="second">
 	 		<tr>
 	    		<td>
-	      			<div align='center'> 
-	        			<table width='720' border='0' cellspacing='1' cellpadding='6' bgcolor='#CCCCCC'>
+	      			<div> 
+	        			<table class="third">
 	          				<tr> 
 	            				<td bgcolor='#F2F2F2'> 
-	              					<div align='center'> 
-	                					<table width='660' border='0' cellspacing='0' cellpadding='2'>
+	              					<div> 
+	                					<table class="fourth">
 	                  						<tr> 
-							                    <td width='100'><font color='#0457A2'>▶ </font><a href='member'><font color='#0457A2'>회원관리</font></a></td>
-							                    <td width='100'><font color='#0457A2'>▶ </font><a href='product'><font color='#0457A2'>상품관리</font></a></td>
-							                    <td width='100'><font color='#0457A2'>▶ </font><a href='jumun'><font color='#0457A2'>주문관리</font></a></td>
-							                    <td width='100'><font color='#0457A2'>▶ </font><a href='opt'><font color='#0457A2'>옵션관리</font></a></td>
-							                    <td width='100'><font color='#0457A2'>▶ </font><a href='faq'><font color='#0457A2'>FAQ관리</font></a></td>
-							                    <td width='100'><font color='#0457A2'>▶ </font><a href='${pageContext.servletContext.contextPath}/user/member_logout'><font color='#0457A2'>로그아웃</font></a></td>
+							                    <td><font>▶ </font><a href='${pageContext.servletContext.contextPath}/admin/member'><font>회원관리</font></a></td>
+							                    <td><font>▶ </font><a href='${pageContext.servletContext.contextPath}/admin/product'><font>상품관리</font></a></td>
+							                    <td><font>▶ </font><a href='${pageContext.servletContext.contextPath}/admin/jumun'><font>주문관리</font></a></td>
+							                    <td><font>▶ </font><a href='${pageContext.servletContext.contextPath}/admin/opt'><font>옵션관리</font></a></td>
+							                    <td><font>▶ </font><a href='${pageContext.servletContext.contextPath}/admin/faq'><font>FAQ관리</font></a></td>
+							                    <td><font>▶ </font><a href='${pageContext.servletContext.contextPath}/user/member_logout'><font>로그아웃</font></a></td>
 						                  	</tr>
 	                					</table>
 	              					</div>

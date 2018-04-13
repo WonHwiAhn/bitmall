@@ -1,0 +1,79 @@
+@charset "UTF-8";
+
+body{
+	background-color:#FFF;
+	maring: 0px;
+}
+
+hr{
+	width:900px;
+	size:3px;
+	text-align:center;
+}
+
+.opt-table-first{
+	width:450px;
+	border:0px;
+	border-spacing:0px;
+	padding:0px;
+	margin-bottom:15px; /*현재 이거 안먹이는데 추후 확인*/
+	margin:auto;
+}
+
+.opt-table-first tr{
+	height: 10px;
+	margin: 5px 0 5px 0;
+}
+
+.opt-table-first .first-td-1{
+	text-align:left;
+	width:250px;
+	height:15px;
+	margin-bottom:10px;
+}
+.opt-table-first .first-td-1 font{
+	color:#FF0000;
+	font-size:15px;
+}
+
+.opt-table-first .first-td-2{
+	text-align:right;
+	width:200px;
+	height:15px;
+}
+
+/* second table css */
+
+.opt-table-second{
+	width:450px;
+	border:1px solid #333;
+	border-spacing:0px;
+	padding:1px;
+	margin:auto;
+}
+
+.opt-table-second td{
+	border-right: 1px solid #333;
+	border-top: 1px solid #FFF;
+	border-bottom: 1px solid #333;
+	border-left: 1px solid #333;
+	text-align:center;
+}
+
+.opt-table-second .second-th-1{
+	background-color:#CCC;
+	font-color:#142712;
+	height:20px;
+}
+
+.opt-table-second .second-td-1{
+	width:50px;
+	height:25px;
+}
+.opt-table-second .second-td-2{
+	width:200px;
+}
+.opt-table-second .second-td-3{
+	width:100px;
+}
+

@@ -1,0 +1,103 @@
+@charset "UTF-8";
+
+hr{
+	width:900px;
+	size:3px;
+	text-align:center;
+}
+
+.top-table	{width:800px;border:0px;cellspacing:0px;cellpadding:0px;margin:auto;}
+
+.top-table .first	{height:25px;}
+
+.top-table .first .product-count{
+	float:left;
+	width:100;
+	vertical-align:bottom;
+}
+.top-table .first .product-count font{
+	color:#FF0000;
+	font-size:15px;
+}
+
+.top-table .first .option{
+	float:right;
+	width:550;
+	height:24px;
+	vertical-align:bottom;
+}
+.option select{
+	height:24px;
+	vertical-align:bottom;
+}
+.option .search{
+	height:24px;
+	size:10;
+}
+
+.top-table .first .search-form{
+	float:left;
+	width:120;
+	vertical-align:bottom;
+}
+.search-form .search-button{
+	
+}
+.search-form .newproduct-button{
+	
+}
+
+/******* 중간 테이블 css ******/
+.middle-table{
+	width:800px;
+	border: 1px solid #333;
+	border-spacing: 0px;
+	margin:auto;
+	/* border-right: 1px solid #FFF;
+	border-top: 1px solid #333333;
+	border-bottom: 1px solid #FFF;
+	border-left: 1px solid #333333; */
+}
+
+.middle-table .first{
+	background-color:#CCCCCC;
+	height:23px;
+}
+.middle-table .second{
+	background-color:#F2F2F2;
+	height:23px;
+}
+
+.middle-table td{
+	text-align:center;
+}
+
+.middle-table .category{
+	width:100px;
+}
+
+.middle-table .category-code{
+	width:100px
+}
+.middle-table .product-name{
+	width:280px;
+}
+.middle-table .product-price{
+	width:70px;
+}
+.middle-table .product-price-content{
+	width:70px;
+	text-align:right;
+}
+.middle-table .product-status{
+	width:50px;
+	text-align:center;
+}
+.middle-table .product-event{
+	width:120px;
+	text-align:center;
+}
+.middle-table .product-modify{
+	width:80px;
+	align:center;
+}

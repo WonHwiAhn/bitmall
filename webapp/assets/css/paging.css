@@ -1,0 +1,29 @@
+@charset "UTF-8";
+
+/**********last-table css************/
+.last-table{
+	width:800px;
+	border:0px;
+	border-spacing:0px;
+	border-padding:0px;
+	margin:auto;
+}
+
+.last-table .cmfont{
+	height:30px;
+	text-align:center;
+}
+
+.last-table .cmfont .on{
+	color:#FC0504;
+	font-weight:bold;
+}
+
+.last-table .cmfont .off{
+	color:#7C7A77;
+}
+
+.last-table .cmfont img{
+	border:0px;
+	vertical-align:middle;
+}

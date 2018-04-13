@@ -7,84 +7,174 @@
 	<title>쇼핑몰 관리자 홈페이지</title>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8">
 	<link href="${pageContext.servletContext.contextPath }/assets/css/font.css" rel="stylesheet" type="text/css">
+	<link href="${pageContext.servletContext.contextPath }/assets/css/admin_member.css" rel="stylesheet" type="text/css">
+	<link href="${pageContext.servletContext.contextPath }/assets/css/paging.css" rel="stylesheet" type="text/css">
+	<script type="text/javascript" src="${pageContext.request.contextPath }/assets/js/jquery/jquery-1.9.0.js"></script>
+	
+	<script>
+		var render = function(mode, vo){
+			/* console.log(vo.length);
+			console.log(vo);
+			console.log(vo[0].id); */
+			
+			var auth;
+			
+			if(vo.auth == 5){
+				auth = '회원';
+			}else if(vo.auth == 1){
+				auth = '관리자';
+			}
+			
+			var html = 
+					"<tr class='member-tr-second'>"+
+					"<td class='member-td-first'>"+vo.id+"</td>"+
+					"<td class='member-td-first'>"+vo.name+"</td>"+
+					"<td class='member-td-first'>"+vo.telNo+"</td>"+
+					"<td class='member-td-first'>"+vo.phoneNo+"</td>"+
+					"<td class='member-td-second'>"+vo.email+"</td>"+
+					"<td class='member-td-first'>"+auth+"</td>"+
+					"<td class='member-td-first'><a href='${pageContext.servletContext.contextPath }/user/member_modify/"+vo.id+"'>수정</a>/ <a href='#'>삭제</a>"+
+					"</td>"+
+					"</tr>";
+			// href을 #처리해놓으면 스크롤이 밑으로 내려갔을 때 맨 위로 올라가는 현상이 발생한다.
+			// 그래서 #으로 걸어놨을 경우 맨위로 안가게 click이벤트에서 막아줘야된다.32번째줄 참고
+			// 그럼에도 불구하고 href를 사용하는 이유는 의미상 사용하는 것
+			
+			if(mode==false){
+				$(".member-table-second > tbody").prepend(html);
+			}else{
+				$('.member-table-second > tbody').append(html);
+			}
+			// --> 연관배열로 사용가능
+			// $("#list-guestbook")[mode ? "prepend":"append"](html);
+		}
+		
+		$(function(){
+			// submit button 클릭시 submit 할려고 함.
+			$('#submit-data').click(function(){
+				var type = $('#sel1').val();
+				var keyword = $('#keyword').val();
+				var page = $('#page-value').val();
+				
+				console.log(type);
+				console.log(keyword);
+				
+				var data = {
+						"keyword":keyword,
+						"searchType":type,
+						"page":page
+				};
+				
+				$.ajax({
+					url:"/bitmall/api/admin/member_list",
+					type:"post",
+					dataType:"json",
+					//contentType:"application/json",
+					data:data,
+					success:function(response){
+						if(response.data != 'nodata'){
+							console.log(response.data.length);
+							// map 이용할 때 console.log(response.data.list[0]);
+							
+							$('.member-table-second > tbody').empty();
+							console.log('${test}');
+							$.each(response.data, function(idx, val){
+								//console.log(val);
+								render(true, val);
+							});
+							
+							
+						}
+					},
+					error:function(){
+						alert('failed');
+					}
+				});
+			});
+		});
+	</script>
 </head>
-<body bgcolor="white" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
-<input type="hidden" name="no" value="${authUser.no}">
-<br>
-<jsp:include page="/WEB-INF/views/include/admin-menu.jsp"/>
-<hr width='900' size='3'>
-<table width="800" border="0" cellspacing="0" cellpadding="0">
-	<form name="form1" method="get" action="">
-	<tr height="40">
-		<td width="200" valign="bottom">&nbsp 회원수 : <font color="#FF0000">20</font></td>
-		<td width="200">&nbsp</td>
-		<td width="350" align="right" valign="bottom">
-			<select name="sel1" class="combo1">
-				<option value="1" >이름</option>
-				<option value="2" >아이디</option>
-			</select>
-			<input type="text" name="text1" size="15" value="">&nbsp
-		</td>
-		<td width="50" valign="bottom">
-			<input type="submit" value="검색">&nbsp
-		</td>
-	</tr>
-	<tr><td height="5" colspan="4"></td></tr>
-	</form>
-</table>
-<table width="800" border="1" cellspacing="0" bordercolordark="white" bordercolorlight="black">
-	<tr bgcolor="#CCCCCC" height="23"> 
-		<td width="100" align="center">ID</td>
-		<td width="100" align="center">이름</td>
-		<td width="100" align="center">전화</td>
-		<td width="100" align="center">핸드폰</td>
-		<td width="200" align="center">E-Mail</td>
-		<td width="100" align="center">회원구분</td>
-		<td width="100" align="center">수정/삭제</td>
-	</tr>
-	
-	
-	<tr bgcolor="#F2F2F2" height="23">	
-		<td width="100">&nbsp id1</td>	
-		<td width="100">&nbsp 홍길동</td>	
-		<td width="100">&nbsp 02 -123-1234</td>	
-		<td width="100">&nbsp 011-123-1234</td>	
-		<td width="200">&nbsp abcd@abcd.com</td>	
-		<td width="100" align="center">회원</td>	
-		<td width="100" align="center">
-			<a href="#">수정</a>/
-			<a href="#">삭제</a>
-		</td>
-	</tr>
-	
-	<c:forEach var="vo" items="${list }" varStatus="status">
-	
-	<tr bgcolor="#F2F2F2" height="23">	
-		<td width="100">&nbsp ${vo.id }</td>	
-		<td width="100">&nbsp ${vo.name }</td>	
-		<td width="100">&nbsp ${vo.phone_number }</td>	
-		<td width="100">&nbsp ${vo.handphone }</td>	
-		<td width="200">&nbsp ${vo.email }</td>	
-		<td width="100" align="center">${vo.type }</td>	
-		<td width="100" align="center">
-			<a href="#">수정</a>/
-			<a href="#">삭제</a>
-		</td>
-	</tr>
-	</c:forEach>
-</table>
-<br>
-<table width="800" border="0" cellpadding="0" cellspacing="0">
-	<tr>
-		<td height="30" class="cmfont" align="center">
-			<img src="${pageContext.servletContext.contextPath }/assets/images/admin/i_prev.gif" align="absmiddle" border="0"> 
-			<font color="#FC0504"><b>1</b></font>&nbsp;
-			<a href="member.jsp?page=2"><font color="#7C7A77">[2]</font></a>&nbsp;
-			<a href="member.jsp?page=3"><font color="#7C7A77">[3]</font></a>&nbsp;
-			<img src="${pageContext.servletContext.contextPath }/assets/images/admin/i_next.gif" align="absmiddle" border="0">
-		</td>
-	</tr>
-</table>
-</center>
+<body>
+	<input type="hidden" name="no" value="${authUser.no}">
+	<br>
+	<jsp:include page="/WEB-INF/views/include/admin-menu.jsp" />
+	<hr>
+	<table class="first-table">
+		<!-- <form name="form1" method="get" action=""> -->
+			<tr>
+				<td class="member-count">회원수 : 
+					<font>20</font>
+				</td>
+				<td class="member-space"></td>
+				<td class="select-form">
+					<select id="sel1" name="sel1" class="combo1">
+							<option value="1">이름</option>
+							<option value="2">아이디</option>
+					</select>
+					<input id="keyword" type="text" name="text1" value="">
+				</td>
+				<td class="search-td">
+					<input type="submit" id="submit-data" value="검색">
+				</td>
+			</tr>
+			<!-- <tr>
+				<td height="5" colspan="4"></td>
+			</tr> -->
+		<!-- </form> -->
+	</table>
+	<table class="member-table-second">
+		<thead>
+			<tr class="first">
+				<td class="member-td-first">ID</td>
+				<td class="member-td-first">이름</td>
+				<td class="member-td-first">전화</td>
+				<td class="member-td-first">핸드폰</td>
+				<td class="member-td-second">E-Mail</td>
+				<td class="member-td-first">회원구분</td>
+				<td class="member-td-first">수정/삭제</td>
+			</tr>
+		</thead>
+
+		<tbody>
+			<tr class="member-tr-second">
+				<td class="member-td-first"> id1</td>
+				<td class="member-td-first"> 홍길동</td>
+				<td class="member-td-first"> 02 -123-1234</td>
+				<td class="member-td-first"> 011-123-1234</td>
+				<td class="member-td-second"> abcd@abcd.com</td>
+				<td class="member-td-first">회원</td>
+				<td class="member-td-first"><a href="#">수정</a>/ <a href="#">삭제</a>
+				</td>
+			</tr>
+		</tbody>
+
+		<c:forEach var="vo" items="${list }" varStatus="status">
+
+			<tr bgcolor="#F2F2F2" height="23">
+				<td width="100">${vo.id }</td>
+				<td width="100">${vo.name }</td>
+				<td width="100">${vo.phone_number }</td>
+				<td width="100">${vo.handphone }</td>
+				<td width="200">${vo.email }</td>
+				<td width="100" align="center">${vo.type }</td>
+				<td width="100" align="center"><a href="#">수정</a>/ <a href="#">삭제</a>
+				</td>
+			</tr>
+		</c:forEach>
+	</table>
+	<br>
+	<table class="last-table">
+		<tr>
+			<td class="cmfont">
+				<!-- 페이지 값을 가지고 있는 hidden input 삽입 -->
+				<input type="hidden" id="page-value" value="0">
+				<img src="${pageContext.servletContext.contextPath }/assets/images/admin/i_prev.gif"> 
+				<font class="on">1</font>&nbsp;
+				<a href="product.jsp?page=2&sel1=&sel2=&sel3=&sel4=&text1="><font class="off">[2]</font></a>&nbsp;
+				<a href="product.jsp?page=3&sel1=&sel2=&sel3=&sel4=&text1="><font class="off">[3]</font></a>&nbsp;
+				<img src="${pageContext.servletContext.contextPath }/assets/images/admin/i_next.gif">
+			</td>
+		</tr>
+	</table>
 </body>
 </html>

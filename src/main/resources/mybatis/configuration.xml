@@ -5,10 +5,15 @@
 		<!-- <typeAlias alias="guestbookvo" type="com.cafe24.mysite.vo.GuestbookVO" />
 		<typeAlias alias="uservo" type="com.cafe24.mysite.vo.UserVO" /> -->
 		<typeAlias alias="customervo" type="com.cafe24.bitmall.vo.CustomerVO"/>
+		<typeAlias alias="categoryvo" type="com.cafe24.bitmall.vo.CategoryVO"/>
+		<typeAlias alias="goodsvo" type="com.cafe24.bitmall.vo.GoodsVO"/>
+		<typeAlias alias="optionvo" type="com.cafe24.bitmall.vo.OptionVO"/>
+		<typeAlias alias="smalloptionvo" type="com.cafe24.bitmall.vo.SmallOptionVO"/>
     </typeAliases>
     		
 	<mappers>
 		<mapper resource="mybatis/mappers/customer.xml" />
+		<mapper resource="mybatis/mappers/admin.xml" />
 	<!-- 	<mapper resource="mybatis/mappers/user.xml" />
 		<mapper resource="mybatis/mappers/guestbook.xml" /> -->
 		<!-- <mapper resource="mybatis/mappers/board.xml" />

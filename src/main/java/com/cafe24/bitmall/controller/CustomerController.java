@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cafe24.bitmall.security.AuthUser;
 import com.cafe24.bitmall.service.CustomerService;
@@ -88,7 +89,16 @@ public class CustomerController {
 	
 	// 회원 정보 수정 성공시
 	@RequestMapping(value="/member_modify_success", method=RequestMethod.GET)
-	public String modifySuccess() {
+	public String modifySuccess(Model model,
+								@AuthUser CustomerVO vo) {
+		//rttr을 이용해서 성공페이지가기 전에 나눠줌
+		System.out.println("vogetAuth ==> " + vo.getAuth());
+		if(vo.getAuth() == 1) {
+			model.addAttribute("auth", "auth");
+		}else if(vo.getAuth() == 5) {
+			model.addAttribute("auth", "user");
+		}
+		
 		return "user/member_modify_success";
 	}
 }

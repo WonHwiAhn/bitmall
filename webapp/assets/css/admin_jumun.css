@@ -1,0 +1,151 @@
+@charset "UTF-8";
+
+body{
+	background-color:#FFF;
+	margin:0px;
+}
+
+hr{
+	width:900px;
+	size:3px;
+	text-align:center;
+}
+
+.jumun-table-first{
+	width:800px;
+	border:0px;
+	border-spacing:0px;
+	padding:0px;
+	margin:auto;
+}
+
+.jumun-table-first tr{
+	height:25px;
+}
+
+.jumun-table-first .first-td-1{
+	text-align:left;
+	width:100px;
+	vertical-align:bottom;
+	font-size:15px;
+}
+.jumun-table-first .first-td-1 font{
+	color:#FF0000;
+}
+
+.jumun-table-first .first-td-2{
+	text-align:right;
+	width:650px;
+	vertical-align:bottom;
+}
+
+.jumun-table-first .first-input-1{
+	width:65px;
+	height:24px;
+	vertical-align:bottom;
+}
+
+.jumun-table-first .first-input-2{
+	width:100px;
+	height:24px;
+	vertical-align:bottom;
+}
+
+.jumun-table-first .first-td-2 select{
+	height:24px;
+	vertical-align:bottom;
+}
+
+.jumun-table-first .first-td-3{
+	text-align:left;
+	width:50px;
+	height:50px;
+	vertical-align:bottom;
+}
+
+/******** second table css *************/
+.jumun-table-second{
+	width:800px;
+	border:1px solid #333;
+	border-spacing:0px;
+	/* border-style:ridge;
+	border-width:3px;
+	border-top-color:#f99;
+	border-left-color:#f99;
+	border-right-color:#f00;
+	border-bottom-color:#f00; */
+	/* border-color:#000 #FFF #FFF #000; */
+	/* border-bottom:1px solid #black;
+	border-right:1px solid #black;
+	border-top:1px solid #white;
+	border-left:1px solid #white; */
+	padding:0px;
+	margin:auto;
+}
+
+.jumun-table-second td{
+	border-right: 1px solid #333;
+	border-top: 1px solid #FFF;
+	border-bottom: 1px solid #333;
+	border-left: 1px solid #333;
+	text-align:center;
+}
+
+.jumun-table-second .second-tr-1{
+	background-color:#CCC;
+	height:23px;
+}
+
+.jumun-table-second .second-tr-2{
+	background-color:#F2F2F2;
+	height:23px;
+}
+
+.jumun-table-second .second-td-orderno{
+	width:70px;
+	text-align:center;
+}
+
+.jumun-table-second .second-td-orderdate{
+	width:70px;
+	text-align:center;
+}
+
+.jumun-table-second .second-td-productname{
+	width:250px;
+	text-align:center;
+}
+
+.jumun-table-second .second-td-productcnt{
+	width:40px;
+	text-align:center;
+}
+
+.jumun-table-second .second-td-totalprice{
+	width:70px;
+}
+.jumun-table-second .second-td-totalprice-1{
+	width:70px;
+	text-align:right;
+}
+
+.jumun-table-second .second-td-name{
+	width:65px;
+}
+
+.jumun-table-second .second-td-pay{
+	width:50px;
+}
+
+.jumun-table-second .second-td-status{
+	width:135px;
+}
+
+.jumun-table-second .second-td-select{
+	font-size:9pt;
+	color:#000;
+}
+
+.jumun-table-second .second-td-delete{
+	width:50px;
+}

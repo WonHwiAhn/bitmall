@@ -1,0 +1,92 @@
+@charset "UTF-8";
+
+body{
+	background-color:#FFF;
+	maring: 0px;
+}
+
+hr{
+	width:900px;
+	size:3px;
+	text-align:center;
+}
+
+.first-table{
+	width:800px;
+	border:0px;
+	border-spacing:0px;
+	padding:0px;
+	margin-bottom:15px; /*현재 이거 안먹이는데 추후 확인*/
+	margin:auto;
+}
+
+.first-table tr{
+	height:25px;
+	margin: 5px 0 0 0;
+}
+
+.first-table .member-count{
+	font-size:15px;
+	width:200px;
+	vertical-align:bottom;
+}
+.first-table .member-count font{
+	color:#F00;
+}
+.first-table .member-space{
+	width:200px;
+}
+.first-table .select-form{
+	width:250px;
+	text-align:right;
+	vertical-align:bottom;
+}
+.first-table .select-form input{
+	height:24px;
+	width:150px;
+}
+
+.select-form .combo1{
+	height:24px;
+	vertical-align:bottom;
+}
+.first-table .search-td{
+	width:50px;
+	vertical-align:bottom;
+}
+
+/******** second table css ********/
+.member-table-second{
+	width:800px;
+	border:1px solid #333;
+	border-spacing:0px;
+	margin:auto;
+	margin-top:15px;
+}
+
+.member-table-second td{
+	border-right: 1px solid #333;
+	border-top: 1px solid #FFF;
+	border-bottom: 1px solid #333;
+	border-left: 1px solid #333;
+	text-align:center;
+}
+
+.member-table-second .first{
+	background-color:#CCC;
+	height:23px;
+}
+
+.member-table-second .member-tr-second{
+	background-color:#F2F2F2;
+	height:23px;
+}
+
+.member-table-second .member-td-first{
+	width:100px;
+	text-align:center;
+}
+.member-table-second .member-td-second{
+	width:200px;
+	text-align:center;
+}

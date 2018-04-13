@@ -1,6 +1,7 @@
 package com.cafe24.bitmall.vo;
 
 public class CustomerVO {
+	private String rownum;
 	private int no;
 	private String id;
 	private String password;
@@ -14,6 +15,12 @@ public class CustomerVO {
 	private int auth;
 	
 	
+	public String getRownum() {
+		return rownum;
+	}
+	public void setRownum(String rownum) {
+		this.rownum = rownum;
+	}
 	public String getZipCode() {
 		return zipCode;
 	}

@@ -11,10 +11,33 @@
 	
 	<script>
 		$(function(){
-			$('#backbutton').click(function(){
-				//window.location.replace('${pageContext.request.contextPath }/admin/opt');
-				 event.preventDefault();
-				 history.back(1);
+			$('#form1').submit(function(){
+				var name = $('#smalloption-name').val();
+				var no = '${no}';
+				var data = {
+								"name":name,
+								"optionNo": no
+							};
+				console.log(no);
+				
+				// 옵션 등록하기
+				$.ajax({
+					url:"${pageContext.servletContext.contextPath}/api/admin/addSmallOption",
+					type:"post",
+					data:data,
+					//contentType:"application/json",
+					success:function(response){
+						
+						if(response.data != 'not exist'){
+							alert('데이터 추가 성공');
+							window.location.replace('/bitmall/admin/opts?no=${no}');
+						}
+					},
+					error:function(){
+						alert('error');
+					}
+					
+				}); // end ajax
 			});
 		});
 	</script>
@@ -23,20 +46,25 @@
 <br>
 <jsp:include page="/WEB-INF/views/include/admin-menu.jsp"/>
 <hr width='900' size='3'>
-<form name="form1" method="post" action="${pageContext.servletContext.contextPath}/admin/opt_update?no=${vo.no}">
+<form id="form1" name="form1" method="post">
+
 <table width="500" border="1" cellspacing="0" bordercolordark="white" bordercolorlight="black">
 	<tr> 
 		<td width="100" height="20" bgcolor="#CCCCCC" align="center">
 			<font color="#142712">옵션번호</font>
 		</td>
-		<td width="400" height="20"  bgcolor="#F2F2F2">${vo.no }</td>
+	
+		<td width="400" height="20"  bgcolor="#F2F2F2">
+			${no }
+		</td>
 	</tr>
 	<tr> 
 		<td width="100" height="20" bgcolor="#CCCCCC" align="center">
-			<font color="#142712">옵션명</font>
+			<font color="#142712">새 옵션명</font>
 		</td>
+	
 		<td width="400" height="20"  bgcolor="#F2F2F2">
-			<input value=${vo.name } type="text" name="name" value="사이즈" size="20" maxlength="20">
+			<input type="text" id="smalloption-name" name="name" size="20" maxlength="20">
 		</td>
 	</tr>
 </table>
@@ -44,8 +72,8 @@
 <table width="500" border="0" cellspacing="0" cellpadding="7">
 	<tr> 
 		<td align="center">
-			<input type="submit" value="수 정 하 기"> &nbsp;&nbsp
-			<a href="opt.jsp"><input id="backbutton" type="button" value="이 전 화 면"></a>
+			<input type="submit" value="등 록 하 기"> &nbsp;&nbsp
+			<a href="opt.jsp"><input type="button" value="이 전 화 면"></a>
 		</td>
 	</tr>
 </table>

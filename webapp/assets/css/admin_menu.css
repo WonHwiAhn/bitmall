@@ -1,0 +1,52 @@
+@charset "UTF-8";
+
+div {
+    margin: auto;
+}
+
+.first{
+	width:900px;
+	border:0px;
+	border-spacing:0px;
+	padding:3px;
+	margin:auto;
+}
+
+.first .td-total{
+	background-color:#F7F7F7;
+}
+
+.td-total .first-div{
+	width:80%;
+}
+
+.first .second{
+	width:780px;
+	border:0px;
+	border-spacing:0px;
+	padding:0px;
+	margin:auto;
+}
+
+.first .third{
+	width:720px;
+	border:0px;
+	border-spacing:1px;
+	padding:6px;
+	background-color:#CCC;
+	margin:auto;
+}
+
+.first .fourth{
+	width:660px;
+	border:0px;
+	border-spacing:0px;
+	padding:2px;
+	margin:auto;
+}
+
+.fourth td, font{
+	width:100px;
+	color:#0457A2;
+}
+
