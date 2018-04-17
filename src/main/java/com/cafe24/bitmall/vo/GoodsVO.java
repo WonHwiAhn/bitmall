@@ -2,25 +2,61 @@ package com.cafe24.bitmall.vo;
 
 public class GoodsVO {
 	private Long no;
-	private String title;
+	private String code;
 	private String name;
 	private String maker;
 	private int price;
 	private String description;
+	private int status;
+	private String iconData;
+	private int discount;
 	private Long categoryNo;
-	private Long iconNo;
+	private Long optionNo;
+	private String soptionData;
 	
+	
+	public String getIconData() {
+		return iconData;
+	}
+	public void setIconData(String iconData) {
+		this.iconData = iconData;
+	}
+	public int getDiscount() {
+		return discount;
+	}
+	public void setDiscount(int discount) {
+		this.discount = discount;
+	}
+	public int getStatus() {
+		return status;
+	}
+	public void setStatus(int status) {
+		this.status = status;
+	}
+	
+	public String getSoptionData() {
+		return soptionData;
+	}
+	public void setSoptionData(String soptionData) {
+		this.soptionData = soptionData;
+	}
+	public Long getOptionNo() {
+		return optionNo;
+	}
+	public void setOptionNo(Long optionNo) {
+		this.optionNo = optionNo;
+	}
 	public Long getNo() {
 		return no;
 	}
 	public void setNo(Long no) {
 		this.no = no;
 	}
-	public String getTitle() {
-		return title;
+	public String getCode() {
+		return code;
 	}
-	public void setTitle(String title) {
-		this.title = title;
+	public void setCode(String code) {
+		this.code = code;
 	}
 	public String getName() {
 		return name;
@@ -52,16 +88,12 @@ public class GoodsVO {
 	public void setCategoryNo(Long categoryNo) {
 		this.categoryNo = categoryNo;
 	}
-	public Long getIconNo() {
-		return iconNo;
-	}
-	public void setIconNo(Long iconNo) {
-		this.iconNo = iconNo;
-	}
 	
 	@Override
 	public String toString() {
-		return "GoodsVO [no=" + no + ", title=" + title + ", name=" + name + ", maker=" + maker + ", price=" + price
-				+ ", description=" + description + ", categoryNo=" + categoryNo + ", iconNo=" + iconNo + "]";
+		return "GoodsVO [no=" + no + ", code=" + code + ", name=" + name + ", maker=" + maker + ", price=" + price
+				+ ", description=" + description + ", status=" + status + ", iconData=" + iconData + ", discount="
+				+ discount + ", categoryNo=" + categoryNo + ", optionNo=" + optionNo + ", soptionData=" + soptionData
+				+ "]";
 	}
 }

@@ -55,6 +55,15 @@
 					if (!form2.card_pw.value) {
 						alert("카드 암호 뒷의 2자리를 선택하세요.");	form2.card_pw.focus();	return;
 					}
+					
+					var data = form2.pay_method[0].value + '*' + form2.card_kind.value + '*' + form2.card_no1.value +
+							   form2.card_no2.value  + form2.card_no3.value +
+							   form2.card_no4.value  + '*' + 
+							   form2.card_year.value + '/' + form2.card_month.value + '*' +
+							   form2.card_pw.value + '*' + form2.card_halbu.value;
+						   
+					form2.paymentInfo.value = data;
+					form2.paymentMethod.value = form2.pay_method[0].value;
 				}
 				else
 				{
@@ -64,6 +73,11 @@
 					if (!form2.bank_sender.value) {
 						alert("입금자 이름을 입력하세요.");	form2.bank_sender.focus();	return;
 					}
+					
+					var data = form2.bank_kind.value + '*' + form2.bank_sender.value;
+					   
+					form2.paymentInfo.value = data;
+					form2.paymentMethod.value = form2.pay_method[1].value;
 				}
 				
 				form2.submit();
@@ -121,49 +135,49 @@
 					<td width="100" align="center">가격</td>
 					<td width="100" align="center">합계</td>
 				</tr>
-				<tr bgcolor="#FFFFFF">
-					<td height="60" align="center">
-						<table cellpadding="0" cellspacing="0" width="100%">
-							<tr>
-								<td width="60">
-									<a href="product_detail.jsp?no=0000"><img src="${pageContext.servletContext.contextPath }/assets/images/product/0000_s.jpg" width="50" height="50" border="0"></a>
-								</td>
-								<td class="cmfont">
-									<a href="product_detail.jsp?no=0000"><font color="#0066CC">제품명1</font></a><br>
-									[옵션]</font> 옵션1
-								</td>
-							</tr>
-						</table>
-					</td>
-					<td align="center"><font color="#464646">1&nbsp개</font></td>
-					<td align="center"><font color="#464646">70,200</font> 원</td>
-					<td align="center"><font color="#464646">70,200</font> 원</td>
-				</tr>
-				<tr bgcolor="#FFFFFF">
-					<td height="60" align="center">
-						<table cellpadding="0" cellspacing="0" width="100%">
-							<tr>
-								<td width="60">
-									<a href="product_detail.jsp?no=0000"><img src="${pageContext.servletContext.contextPath }/assets/images/product/0000_s.jpg" width="50" height="50" border="0"></a>
-								</td>
-								<td class="cmfont">
-									<a href="product_detail.jsp?no=0000"><font color="#0066CC">제품명2</font></a><br>
-									[옵션]</font> 옵션2
-								</td>
-							</tr>
-						</table>
-					</td>
-					<td align="center"><font color="#464646">1&nbsp개</font></td>
-					<td align="center"><font color="#464646">60,000</font> 원</td>
-					<td align="center"><font color="#464646">60,000</font> 원</td>
-				</tr>
+				
+				<c:forEach items="${dto}" var="vo" varStatus="status">
+					<tr>
+						
+						<td height="60" align="center" bgcolor="#FFFFFF">
+							<table cellpadding="0" cellspacing="0" width="100%">
+								<tr>
+									<td width="60">
+										<a href="product_detail.jsp?product_num=0000"><img src="${pageContext.servletContext.contextPath }${vo.src}" width="50" height="50" border="0"></a>
+									</td>
+									<td class="cmfont">
+										<a href="product_detail.jsp?product_num=0000">${vo.name }</a><br>
+										<font color="#0066CC">[옵션사항]</font>
+										<c:forEach items="${map}" var="map" varStatus="status">
+											<c:if test="${map.key eq vo.no}">
+												<c:if test="${map.value eq '0' }">
+													선택한 옵션이 없습니다.
+												</c:if>
+												<c:if test="${map.value ne '0' }">
+													${map.value}
+												</c:if>
+											</c:if>
+										</c:forEach>
+									</td>
+								</tr>
+							</table>
+						</td>
+						<td align="center" bgcolor="#FFFFFF">
+							<input type="text" name="num1" size="3" value="${vo.count }" class="cmfont1">&nbsp<font color="#464646">개</font>
+						</td>
+						<td align="center" bgcolor="#FFFFFF"><font color="#464646">${vo.price }원</font></td>
+						<td align="center" bgcolor="#FFFFFF"><font color="#464646">${vo.totalCount }원</font></td>
+					</tr>
+					<%-- <c:set var="totalBalance" value="${totalBalance += vo.totalCount }" /> --%>
+				</c:forEach>
+				
 				<tr>
 					<td colspan="5" bgcolor="#F0F0F0">
 						<table width="100%" border="0" cellpadding="0" cellspacing="0" class="cmfont">
 							<tr>
 								<td bgcolor="#F0F0F0"><img src="${pageContext.servletContext.contextPath }/assets/images/cart_image1.gif" border="0"></td>
 								<td align="right" bgcolor="#F0F0F0">
-									<font color="#0066CC"><b>총 합계금액</font></b> : 상품대금(132,000원) + 배송료(2,500원) = <font color="#FF3333"><b>134,500 원</b></font>&nbsp;&nbsp
+									<font color="#0066CC"><b>총 합계금액</font></b> : 상품대금(${sum}원) + 배송료(2,500원) = <font color="#FF3333"><b><input type="hidden" value="${sum + 2500}" id="rTotalPrice" name="rTotalPrice">${sum + 2500}원</b></font>&nbsp;&nbsp
 								</td>
 							</tr>
 						</table>
@@ -179,13 +193,15 @@
 			<br><br>
 
 			<!-- form2 시작  -->
-			<form name="form2" method="post"action="order_ok.jsp">
-
-			<input type="hidden" name="o_name"   value="홍길동">
-			<input type="hidden" name="o_tel"    value="02-111-1111">
-			<input type="hidden" name="o_phone"  value="010-222-2222">
-			<input type="hidden" name="o_email"  value="aaa@aa.aa.aa">
-			<input type="hidden" name="o_zip"    value="111-111">
+			<form name="form2" method="post"action="${pageContext.servletContext.contextPath }/order/check">
+			<input type="text" id="orderNo" name="orderNo" value="${buyVO.rNo}">
+			<input type="text" id="paymentInfo" name="paymentInfo" value="">
+			<input type="text" id="paymentMethod" name="paymentMethod" value="">
+			<input type="hidden" name="o_name" value="홍길동">
+			<input type="hidden" name="o_tel" value="02-111-1111">
+			<input type="hidden" name="o_phone" value="010-222-2222">
+			<input type="hidden" name="o_email" value="aaa@aa.aa.aa">
+			<input type="hidden" name="o_zip" value="111-111">
 			<input type="hidden" name="o_addr"   value="서울 서초구 서초대로 74길 33 비트빌딩">
 
 			<input type="hidden" name="r_name"   value="홍길동">
@@ -212,8 +228,8 @@
 								<td width="150"><b>결재방법 선택</b></td>
 								<td width="20"><b>:</b></td>
 								<td width="390">
-									<input type="radio" name="pay_method" onclick="javascript:PaySel(0);" checked>카드 &nbsp;
-									<input type="radio" name="pay_method" onclick="javascript:PaySel(1);">무통장
+									<input type="radio" value="0" name="pay_method" onclick="javascript:PaySel(0);" checked>카드 &nbsp;
+									<input type="radio" value="1" name="pay_method" onclick="javascript:PaySel(1);">무통장
 								</td>
 							</tr>
 						</table>

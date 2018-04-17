@@ -1,0 +1,87 @@
+@charset "UTF-8";
+#carousel {
+	/* position:relative; */
+	width:959px;
+	height:163px;	
+	margin:0 auto;
+	overflow:hidden;
+}
+
+#slides {
+	overflow:hidden;
+	position:relative;
+	width:959px;
+	height:163px;
+	border:1px solid #ccc;
+}
+
+/* 이미지 씌우는 ul속성 */	
+#slides ul {
+	position:relative;
+	left:0;
+	top:0;
+	list-style:none;
+	margin:0;
+	padding:0;	
+	width:2700px;			
+}
+
+/* 사진 크기에 영향있음 */
+#slides li {
+	width:979px;
+	height:174px;	
+	float:left;
+}
+
+#slides li div{
+	position:absolute;
+	top:35px;
+	left:30px;
+	z-index:999;
+	display:block; 
+	width:31px; 
+	height:32px;
+	
+	
+	outline:0;
+}
+
+#slides li img {
+	padding:0px;
+}
+
+/* 앞 뒤 버튼 속성 */
+#buttons {
+	padding:0 0 5px 0;	
+	/* position:absolute; */
+	top:100px;
+	left:100px;
+	z-index:999;
+}
+
+#buttons a {
+	display:block; 
+	width:31px; 
+	height:32px;
+	text-indent:-999em;
+	float:left;
+	outline:0;
+}
+
+a#prev {
+	background:url(../images/arrow.gif) 0 -31px no-repeat; 
+}
+
+a#prev:hover {
+	background:url(../images/arrow.gif) 0 0 no-repeat;
+}
+
+a#next {
+	background:url(../images/arrow.gif) -32px -31px no-repeat; 
+}
+
+a#next:hover {
+	background:url(../images/arrow.gif) -32px 0 no-repeat;
+}
+
+.clear {clear:both}

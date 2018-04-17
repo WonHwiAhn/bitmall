@@ -1,0 +1,180 @@
+/*
+-- 요게 관리자 아이디 만드는 쿼리입니다.
+INSERT INTO customer 
+		VALUES(null, 'test', password('test'), 'test', '1992-11-02', null, '010-7118-8650', '762-634', '서울시', 'myroom9@naver.com', 1);
+-- 요게 일반 사용자 아이디 만드는 쿼리입니다.        
+INSERT INTO customer 
+		VALUES(null, '2', password('2'), '1', '1992-11-02', null, '010-7118-8650', '762-634', '서울시', 'myroom9@naver.com', 5);
+        
+-- 나머지는 밑에 있는 아이콘 쿼리와 카테고리 쿼리를 돌리고
+-- 어드민으로 접속해서 옵션과 상품을 만들고 홈페이지를 돌려보시면 됩니다.
+-- 옵션만들 때 error가 나도 당황하지마시고 다시 한 번 만들기 버튼 누르면 이상없이 만들어 집니다.
+*/
+
+use bitmall;
+
+select * from customer where id like CONCAT('%', '1', '%')
+  					 OR
+  					 name like CONCAT('%', '1', '%');
+
+select * from customer;
+        
+        
+        SELECT no, id, name, birth, tel_no as telNo, phone_no as phoneNo, zipcode as zipCode, address, email, auth
+		  FROM customer
+		 WHERE id = ''
+		   AND password = password('123');
+           
+
+
+SELECT COUNT(*), B.*
+  FROM customer A, (SELECT *
+  FROM customer
+ WHERE id LIKE '%%')B;
+ 
+ 
+ 
+ SELECT A.*, count
+  FROM customer A, (SELECT COUNT(*) as count FROM customer WHERE id LIKE '%%') B
+ WHERE id LIKE '%%';
+ 
+ SELECT @rownum:=@rownum+1 AS rownum, B.*  
+ FROM (SELECT @rownum:=0) A, 
+ (SELECT *
+ FROM customer
+ WHERE id LIKE '%%'
+ ORDER BY no desc) B
+ ORDER BY rownum desc limit 0, 10;
+ 
+ SELECT *
+ FROM customer
+ WHERE id LIKE '%%'
+ ORDER BY no desc limit 0, 10;
+ 
+ select * from `option`;
+ 
+ INSERT INTO bitmall.option VALUES(null, 123, null);
+ 
+ alter table post add constraint
+post_cas foreign key(category_no)
+references category(no) on delete cascade;
+
+############################# 소옵션 쿼리
+
+SELECT * FROM samll_option;
+INSERT INTO small_option values(null, 'X', 35);
+
+
+############################# 카테고리
+SELECT * FROM category;
+INSERT INTO category VALUES(null, '옷', 0);
+INSERT INTO category VALUES(null, '음식', 1);
+INSERT INTO category VALUES(null, '게임', 2);
+
+############################ 회사
+select * from company;
+INSERT INTO company(no, name) VALUES(null, '네이버');
+INSERT INTO company(no, name) VALUES(null, '비트');
+INSERT INTO company(no, name) VALUES(null, '카페24');
+
+############################ 아이콘
+drop table icon;
+select * from icon;
+INSERT INTO icon values(null, 'new', '/assets/images/i_new.gif');
+INSERT INTO icon values(null, 'hit', '/assets/images/i_hit.gif');
+INSERT INTO icon values(null, 'sale', '/assets/images/i_sale.gif');
+
+############################ 아이콘 데이터
+select * from icon_data;
+
+############################ 상품
+select * from goods;
+delete from goods where no = 29;
+INSERT INTO goods
+VALUES (null, 'test', 'test', 5000, 'test', 'test', 1, 2, 0, 1, 1, 1);
+select last_insert_id();
+
+-- 카테고리도 함께 지워지도록 cascade
+alter table goods add constraint
+goods_cascade1 foreign key(category_no)
+references category(no) on delete cascade;
+
+-- 카테고리도 함께 지워지도록 cascade
+alter table goods add constraint
+goods_cascade2 foreign key(option_no)
+references `option`(no) on delete cascade;
+
+-- small_option_data table에 있는 goods_no도 함께 지워짐
+alter table goods add constraint
+goods_cascade3 foreign key(no)
+references small_option_data(goods_no) on delete cascade;
+
+############################ 이미지
+select * from image order by no; 
+
+select substring_index(src, '*', 1) as src from image;
+
+############################ 옵션
+select * from `option`;
+select A.no, A.name from `option` A, customer B 
+where A.no = B.no
+  AND A.no = 3;
+
+############################ 카드
+select * from cart;
+select * from cart where `option` = '3-5' and goods_no=2 and customer_no = 19;
+delete from cart;
+select * from small_option_data;
+
+delete from cart where customer_no=18 and goods_no=2;
+
+SELECT count, `status`, `option`, goods_no as goodsNo, customer_no as customerNo, order_no as orderNo
+			  FROM cart
+			 WHERE `option` = '3';
+SELECT * FROM (
+(SELECT A.goods_no as no, B.src as src FROM cart A, image B
+WHERE A.goods_no = B.goods_no)
+UNION
+(SELECT B.no as no, B.name as name, B.price as price FROM cart A, goods B
+WHERE A.goods_no = B.no)) A;
+
+
+select * from small_option;
+
+select * from cart where customer_no=18;
+
+-- 장바구니 리스트 구하는 쿼리
+SELECT B.no as no, B.src as src, B.name as name, A.`option` as `option`, A.count as count,
+	   B.price as price, (B.price * A.count) as totalCount, A.goods_no as goodsNo
+  FROM cart A
+LEFT OUTER JOIN (SELECT B.no as no, A.src as src, B.name as name, B.price as price
+				   FROM (SELECT A.goods_no as no, B.src as src FROM cart A, image B
+				  WHERE A.goods_no = B.goods_no AND A.customer_no=18 AND A.status = 0) A
+LEFT OUTER JOIN (SELECT B.no as no, B.name as name, IF(B.discount=0, B.price, (B.price - B.price * B.discount/100)) as price 
+				 FROM cart A, goods B
+				 WHERE A.goods_no = B.no AND A.customer_no=18 AND A.status = 0) 
+                 B ON A.no = B.no) 
+                 B ON A.goods_no = B.no 
+ WHERE A.customer_no = 18 AND A.status = 0;
+ 
+ select  * from buy;
+ 
+ SELECT no as rNo, totalprice as rtotalPrice, zipcode as rZipcode, 
+				   destination rDestination, order_no as rOrderNo, order_date as rOrderDate,
+				   require as rRequire, status as rStatus, customer_no as rCustomerNo
+			  FROM buy
+			WHERE no = #{no}
+            
+####################### ordergoods관련 쿼리
+SELECT * FROM bitmall.ordergoods;
+
+
+####################### 주문 내역 쿼리
+SELECT A.order_date as orderDate, A.order_no as orderNo, B.name as name, 
+       A.totalprice as totalPrice, B.status as `status` 
+  FROM buy A, 
+(SELECT A.order_no as order_no, A.status as `status`, B.name as name
+  FROM ordergoods A, goods B
+ WHERE A.goods_no = B.no) B
+ WHERE A.no = B.order_no
+   AND A.customer_no = 18;

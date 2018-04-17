@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="order">
+	<!-- 구매 항목에 추가 쿼리 -->
+	<insert id="addItem" parameterType="buyvo">
+		<![CDATA[
+			INSERT INTO buy (no, totalprice, zipcode, destination, order_date, `require`, customer_no)
+			VALUES (null, #{rTotalPrice}, #{rZipcode}, #{rDestination}, now(), #{rRequire}, #{rCustomerNo})
+		]]>
+		<selectKey keyProperty="rNo" resultType="long" order="AFTER">
+			SELECT last_insert_id()
+		</selectKey>
+	</insert>
+	
+	<!-- 구매 항목에 추가 쿼리 -->
+	<update id="updateItem" parameterType="long" >
+		<![CDATA[
+			UPDATE buy SET order_no = #{rOrderNo} WHERE no = #{rNo}
+		]]>
+	</update>
+	
+	<!-- 구매 항목에 추가 쿼리 -->
+	<select id="getInfo" parameterType="long" resultType="buyvo">
+		<![CDATA[
+			SELECT no as rNo, totalprice as rtotalPrice, zipcode as rZipcode, 
+				   destination rDestination, order_no as rOrderNo, order_date as rOrderDate,
+				   `require` as rRequire, customer_no as rCustomerNo
+			  FROM buy
+			WHERE no = #{no}
+		]]>
+	</select>
+	
+	<!-- 결제가 이루어질 때 해당 구매 최신화 -->
+	<update id="update" parameterType="buyvo">
+		UPDATE buy SET payment_method = #{rPaymentMethod}, order_date = now()
+		WHERE no = #{rNo};
+	</update>
+	
+	<!-- 결제 이뤄질 때 orderGoods 테이블에 값 넣기 -->
+	<insert id="insertOrderGoods" parameterType="ordergoodsvo">
+		INSERT INTO ordergoods
+		VALUES(#{count}, #{price}, #{payment_info}, 0, #{goodsNo}, #{orderNo})
+	</insert>
+</mapper>
+
+

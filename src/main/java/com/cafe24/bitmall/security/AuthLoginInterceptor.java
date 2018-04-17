@@ -27,10 +27,12 @@ public class AuthLoginInterceptor extends HandlerInterceptorAdapter {
 		
 		String id = WebUtil.checkParameter(request.getParameter("id"), "");
 		String adminId = WebUtil.checkParameter(request.getParameter("admin-id"), "");
+		String goodsNo = WebUtil.checkParameter(request.getParameter("goodsNo"), "");
 		
 		String password = request.getParameter("password");
 		
 		System.out.println("interceptor id ==> " + id);
+		System.out.println("interceptor adminId ==> " + adminId);
 		System.out.println("interceptor password ==> " + password);
 		
 		ApplicationContext ac = 
@@ -39,7 +41,11 @@ public class AuthLoginInterceptor extends HandlerInterceptorAdapter {
 		CustomerService customerService = ac.getBean(CustomerService.class);
 		CustomerVO vo = new CustomerVO();
 		
-		vo.setId(id);
+		if("".equals(id)) {
+			vo.setId(adminId);
+		}else {
+			vo.setId(id);
+		}
 		vo.setPassword(password);
 		
 		CustomerVO authUser = customerService.getCustomer(vo);
@@ -55,9 +61,9 @@ public class AuthLoginInterceptor extends HandlerInterceptorAdapter {
 		
 		if(authUser == null) {
 			//response.getWriter().write("something");
-			if("".equals(id))
+			if(!"".equals(id) && id != null)
 				response.sendRedirect(request.getContextPath() + "/user/member_login_fail");
-			else if("".equals(adminId))
+			else if(!"".equals(adminId) && adminId != null)
 				response.sendRedirect(request.getContextPath() + "/admin/member_login_fail");
 			//JSONResult.success("good");
 			return false;
@@ -71,6 +77,12 @@ public class AuthLoginInterceptor extends HandlerInterceptorAdapter {
 		
 		HttpSession session = request.getSession(true);
 		session.setAttribute("authUser", authUser);
+		
+		// 상품번호가 있으면 그 상품 페이지로 이동
+		if(!"".equals(goodsNo)) {
+			response.sendRedirect(request.getContextPath()+"/product/product_detail?no="+goodsNo);
+			return false;
+		}
 		
 		if(authUser.getAuth() == 5)
 			response.sendRedirect(request.getContextPath());

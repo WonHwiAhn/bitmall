@@ -66,17 +66,17 @@
 <br>
 <jsp:include page="/WEB-INF/views/include/admin-menu.jsp"/>
 <hr width='900' size='3'>
-<table width="450" border="0" cellspacing="0" cellpadding="0">
+<table align="center" width="450" border="0" cellspacing="0" cellpadding="0">
 	<tr height="50">
-		<td align="left"  width="300" valign="bottom">&nbsp 옵션명 : <font color="#0457A2"><b>사이즈</b></font></td>
+		<td align="left"  width="300" valign="bottom"><font color="#0457A2"></font></td>
 		<td align="right" width="200" valign="bottom">
-			<a href="${pageContext.servletContext.contextPath }/admin/opts_new?optionNo=${list[0].optionNo}"><input type="button" value="신규입력" id="add-smalloption"></a> &nbsp
+			<a href="${pageContext.servletContext.contextPath }/admin/opts_new?optionNo=${no}"><input type="button" value="신규입력" id="add-smalloption"></a> &nbsp
 		</td>
 	</tr>
 	<tr><td height="5" colspan="2"></td></tr>
 </table>
 
-<table class="opts-table-second" width="500" border="1" cellspacing="0" bordercolordark="white" bordercolorlight="black">
+<table align="center" class="opts-table-second" width="500" border="1" cellspacing="0" bordercolordark="white" bordercolorlight="black">
 	<thead>
 		<tr bgcolor="#CCCCCC" height="20"> 
 			<td width="100" align="center"><font color="#142712">소옵션번호</font></td>

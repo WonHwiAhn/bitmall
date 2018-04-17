@@ -16,7 +16,7 @@
 <!-- <input type="hidden" name="optionNo" value="1">
 <input type="hidden" name="no" value="1"> -->
 
-<table width="500" border="1" cellspacing="0" bordercolordark="white" bordercolorlight="black">
+<table align="center" width="500" border="1" cellspacing="0" bordercolordark="white" bordercolorlight="black">
 	<tr> 
 		<td width="100" height="20" bgcolor="#CCCCCC" align="center">
 			<font color="#142712">소옵션번호</font>
@@ -37,7 +37,7 @@
 	</tr>
 </table>
 <br>
-<table width="500" border="0" cellspacing="0" cellpadding="7">
+<table align="center" width="500" border="0" cellspacing="0" cellpadding="7">
 	<tr> 
 		<td align="center">
 			<input type="submit" value="수 정 하 기"> &nbsp;&nbsp

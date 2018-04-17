@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="jumun">
+	<select id="getJumunList" parameterType="long" resultType="jumundto">
+		SELECT A.order_date as orderDate, A.order_no as orderNo, B.name as name, 
+		       A.totalprice as totalPrice, B.status as `status` 
+		  FROM buy A, 
+		(SELECT A.order_no as order_no, A.status as `status`, B.name as name
+		  FROM ordergoods A, goods B
+		 WHERE A.goods_no = B.no) B
+		 WHERE A.no = B.order_no
+		   AND A.customer_no = #{no}
+	</select>
+</mapper>
+

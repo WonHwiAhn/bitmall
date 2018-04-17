@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.cafe24.bitmall.security.Auth;
 import com.cafe24.bitmall.security.AuthUser;
 import com.cafe24.bitmall.service.CustomerService;
 import com.cafe24.bitmall.vo.CustomerVO;
@@ -23,7 +24,14 @@ public class CustomerController {
 	
 	// 회원 로그인 폼 GET
 	@RequestMapping(value= {"/member_login", "/", ""})
-	public String login() {
+	public String login(@RequestParam(value="no", required=false) String goodsNo,
+						Model model) {
+		
+		// 여기서 no값을 받는 이유는 장바구니에서 로그인을 할 경우에를 대비해서이다.
+		// 장바구니에서 로그인 할 경우 로그인 후 해당 상품 페이지로 이동.
+		if(goodsNo != null || goodsNo != "") {
+			model.addAttribute("goodsNo", goodsNo);
+		}
 		return "user/member_login";
 	}
 	
@@ -50,7 +58,7 @@ public class CustomerController {
 	@RequestMapping(value="/member_join", method=RequestMethod.POST)
 	public String register(@ModelAttribute CustomerVO vo) {
 		System.out.println("controller vo ==> " + vo);
-		
+		System.out.println("/member_join zipcode ==> " + vo.getZipCode());
 		customerService.join(vo);
 		
 		return "/user/member_login";
@@ -69,6 +77,7 @@ public class CustomerController {
 	}
 	
 	// 회원 정보 수정 폼
+	@Auth
 	@RequestMapping(value="/member_modify/{id}", method=RequestMethod.GET)
 	public String modify(@PathVariable(value="id") String id,
 						 @AuthUser CustomerVO userInfo,

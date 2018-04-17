@@ -107,6 +107,7 @@
 															<p style="padding-left:10px;">
 															<img align="absmiddle" src="${pageContext.servletContext.contextPath }/assets/images/login_id.gif" width="40" height="13" border="0"> 
 															<input type="text" name="id" size="20" maxlength="12" class="cmfont1" id="id">
+															<input type="hidden" name="goodsNo" id="goodsNo" value=${goodsNo }>
 															</p>
 														</td>
 														<td width="100" rowspan="2">

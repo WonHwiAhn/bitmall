@@ -54,33 +54,46 @@
 					<td width="90"  align="center">합계</td>
 					<td width="50"  align="center">삭제</td>
 				</tr>
-				<tr>
-					<form name="form2" method="post" action="">
-					<td height="60" align="center" bgcolor="#FFFFFF">
-						<table cellpadding="0" cellspacing="0" width="100%">
-							<tr>
-								<td width="60">
-									<a href="product_detail.jsp?product_num=0000"><img src="${pageContext.servletContext.contextPath }/assets/images/product/0000_s.jpg" width="50" height="50" border="0"></a>
-								</td>
-								<td class="cmfont">
-									<a href="product_detail.jsp?product_num=0000">제품명</a><br>
-									<font color="#0066CC">[옵션사항]</font> 옵션1
-								</td>
-							</tr>
-						</table>
-					</td>
-					<td align="center" bgcolor="#FFFFFF">
-						<input type="text" name="num1" size="3" value="1" class="cmfont1">&nbsp<font color="#464646">개</font>
-					</td>
-					<td align="center" bgcolor="#FFFFFF"><font color="#464646">70,200</font></td>
-					<td align="center" bgcolor="#FFFFFF"><font color="#464646">70,200</font></td>
-					<td align="center" bgcolor="#FFFFFF">
-						<input type="image" src="${pageContext.servletContext.contextPath }/assets/images/b_edit1.gif" border="0">&nbsp<br>
-						<a href = "#"><img src="${pageContext.servletContext.contextPath }/assets/images/b_delete1.gif" border="0"></a>&nbsp
-					</td>
-					</form>
-				</tr>
-				<tr>
+				<c:forEach items="${dto}" var="vo" varStatus="status">
+					<tr>
+						<form name="form2" method="post" action="">
+						<td height="60" align="center" bgcolor="#FFFFFF">
+							<table cellpadding="0" cellspacing="0" width="100%">
+								<tr>
+									<td width="60">
+										<a href="product_detail.jsp?product_num=0000"><img src="${pageContext.servletContext.contextPath }${vo.src}" width="50" height="50" border="0"></a>
+									</td>
+									<td class="cmfont">
+										<a href="product_detail.jsp?product_num=0000">${vo.name }</a><br>
+										<font color="#0066CC">[옵션사항]</font>
+										<c:forEach items="${map}" var="map" varStatus="status">
+											<c:if test="${map.key eq vo.no}">
+												<c:if test="${map.value eq '0' }">
+													선택한 옵션이 없습니다.
+												</c:if>
+												<c:if test="${map.value ne '0' }">
+													${map.value}
+												</c:if>
+												
+											</c:if>
+										</c:forEach>
+									</td>
+								</tr>
+							</table>
+						</td>
+						<td align="center" bgcolor="#FFFFFF">
+							<input type="text" name="num1" size="3" value="${vo.count }" class="cmfont1">&nbsp<font color="#464646">개</font>
+						</td>
+						<td align="center" bgcolor="#FFFFFF"><font color="#464646">${vo.price }원</font></td>
+						<td align="center" bgcolor="#FFFFFF"><font color="#464646">${vo.totalCount }원</font></td>
+						<td align="center" bgcolor="#FFFFFF">
+							<input type="image" src="${pageContext.servletContext.contextPath }/assets/images/b_edit1.gif" border="0">&nbsp<br>
+							<a href = "#"><img src="${pageContext.servletContext.contextPath }/assets/images/b_delete1.gif" border="0"></a>&nbsp
+						</td>
+						</form>
+					</tr>
+				</c:forEach>
+				<%-- <tr>
 					<form name="form2" method="post" action="">
 					<td height="60" align="center" bgcolor="#FFFFFF">
 						<table cellpadding="0" cellspacing="0" width="100%">
@@ -117,14 +130,16 @@
 							</tr>
 						</table>
 					</td>
-				</tr>
+				</tr> --%>
 			</table>
 			<table width="710" border="0" cellpadding="0" cellspacing="0" class="cmfont">
 				<tr height="44">
 					<td width="710" align="center" valign="middle">
-						<a href="index.jsp"><img src="${pageContext.servletContext.contextPath }/assets/images/b_shopping.gif" border="0"></a>&nbsp;&nbsp;
+						<a href="${pageContext.servletContext.contextPath }/"><img src="${pageContext.servletContext.contextPath }/assets/images/b_shopping.gif" border="0"></a>&nbsp;&nbsp;
+						<c:if test="${dtoSize ne 0 }">
 						<a href="#"><img src="${pageContext.servletContext.contextPath }/assets/images/b_cartalldel.gif" width="103" height="26" border="0"></a>&nbsp;&nbsp;
-						<a href="order"><img src="${pageContext.servletContext.contextPath }/assets/images/b_order1.gif" border="0"></a>
+							<a href="${pageContext.servletContext.contextPath}/order/now"><img src="${pageContext.servletContext.contextPath }/assets/images/b_order1.gif" border="0"></a>
+						</c:if>
 					</td>
 				</tr>
 			</table>

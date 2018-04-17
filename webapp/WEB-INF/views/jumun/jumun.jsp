@@ -48,19 +48,36 @@
 					<td width="115" align="center">주문상태</td>
 				</tr>
 				<tr><td colspan="5" bgcolor="DEDCDD"></td></tr>
-
-				<tr>
-					<td height="30" align="center"><font color="686868">2007-01-02</font></td>
+				
+				<c:forEach items="${jumunList }" var="dto" varStatus="status">
+					<tr>
+					<td height="30" align="center"><font color="686868">${dto.orderDate }</font></td>
 					<td align="center">
-						<a href="jumun_info.jsp?no=13&page=1"><font color="#0066CC">200701020001</font></a>
+						<!-- <a href="jumun_info.jsp?no=13&page=1"> --><font color="#0066CC">${dto.orderNo }</font><!-- </a> -->
 					</td>
-					<td><font color="686868">파란 브라우스 (외 2)</font></td>
-					<td align="right"><font color="686868">20,000 원</font></td>
-					<td align="center"><font color="#0066CC">주문신청</font></td>
+					<td><font color="686868">${dto.name }</font></td>
+					<td align="right"><font color="686868">${dto.totalPrice }원</font></td>
+					<td align="center">
+						<font color="#0066CC">
+							<c:if test="${dto.status eq 0 }">
+								주문신청
+							</c:if>
+							<c:if test="${dto.status eq 1 }">
+								배송준비
+							</c:if>
+							<c:if test="${dto.status eq 2 }">
+								배송중
+							</c:if>	
+							<c:if test="${dto.status eq 3 }">
+								배송완료
+							</c:if>
+						</font>
+					</td>
 				</tr>
 				<tr><td colspan="5" background="${pageContext.servletContext.contextPath }/assets/images/line_dot.gif"></td></tr>
+				</c:forEach>
 
-				<tr>
+				<%-- <tr>
 					<td height="30" align="center"><font color="686868">2007-01-01</font></td>
 					<td align="center">
 						<a href="jumun_info.jsp?no=10&page=1"><font color="#0066CC">200701010011</font></a>
@@ -91,7 +108,7 @@
 					<td align="right"><font color="686868">30,000 원</font></td>
 					<td align="center"><font color="#686868">주문완료</font></td>
 				</tr>
-				<tr><td colspan="5" background="${pageContext.servletContext.contextPath }/assets/images/line_dot.gif"></td></tr>
+				<tr><td colspan="5" background="${pageContext.servletContext.contextPath }/assets/images/line_dot.gif"></td></tr> --%>
 
 				<tr><td colspan="5" height="2" bgcolor="#0066CC"></td></tr>
 			</table>

@@ -32,35 +32,89 @@ public class AdminController {
 	
 	@ResponseBody
 	@RequestMapping(value="/member_list", method=RequestMethod.POST)
-	public JSONResult list(@ModelAttribute SearchCriteria cri,
-			@RequestParam(value="keyword", required=false, defaultValue="MONIBUYBGTF") String keyword,
-			@RequestParam(value="searchType", required=false, defaultValue="") String type,
+	public JSONResult list(@ModelAttribute SearchCriteria vo,
+			/*@RequestParam(value="keyword", required=false, defaultValue="MONIBUYBGTF") String keyword,
+			@RequestParam(value="searchType", required=false, defaultValue="") String type,*/
 			@RequestParam String page,
 			Model model) {
 		List<CustomerVO> list = null;
-		System.out.println("controller cri ==> " + cri);
-		System.out.println("controller keyword ==> " + keyword);
-		System.out.println("controller type ==> " + type);
+		System.out.println("controller cri ==> " + vo);
+		int count = 0;
+		/*System.out.println("controller keyword ==> " + keyword);
+		System.out.println("controller type ==> " + type);*/
 		System.out.println("controller page ==> " + page);
 		
-		if(!"MONIBUYBGTF".equals(keyword)) {
+		//String keyword = cri.getKeyword();
+		
+		/* 회원리스트 가져오기 */
+		if("".equals(vo.getSearchType()) || vo.getSearchType() == null) {
+			if("".equals(vo.getKeyword()) || vo.getKeyword() == null){
+				list = adminService.getList();
+				count = adminService.getTotalCount();
+			}
+		}else { // 검색 조건이 있을 경우
+			if(!"".equals(vo.getKeyword()) || vo.getKeyword() != null){
+				list = adminService.getList(vo.getKeyword(), vo.getSearchType());
+				count = adminService.getTotalCount(vo.getKeyword(), vo.getSearchType());
+			}
+		}
+		
+		/*if(!"MONIBUYBGTF".equals(keyword)) {
 			model.addAttribute("list", adminService.getList(keyword, page));
 			model.addAttribute("keyword", keyword);
 		}else { // 키워드 없을 경우
 			//System.out.println(adminService.getList(page));
 			list = adminService.getList(page);
 			model.addAttribute("test", "test");
-		}
+		}*/
 		
-		/*HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("list", list);*/
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("list", list);
+		map.put("count", count);
 		//System.out.println(adminService.getList(keyword, page));
 		
 		//model.addAttribute("pageMap", adminService.calcPage(page, adminService.totalCount()));
 		
 		
-		//return JSONResult.success(list.isEmpty() ? "nodata" : map);
-		return JSONResult.success(list.isEmpty() ? "nodata" : list);
+		return JSONResult.success(list.isEmpty() ? "nodata" : map);
+		//return JSONResult.success(list.isEmpty() ? "nodata" : list);
+	}
+	
+	// 회원 삭제
+	// 옵션 삭제
+	@ResponseBody
+	@RequestMapping(value="/member_delete", method=RequestMethod.POST)
+	public JSONResult deleteMember(@ModelAttribute SearchCriteria vo,
+								   @RequestParam Long no) {
+		System.out.println("/member_delete no == > " + no);
+		
+		boolean success = adminService.deleteMember(no);
+		List<CustomerVO> list = null;
+		int count = 0;
+		
+		System.out.println("/member_delete success == > " + success);
+		
+		if(success) {
+			/* 회원리스트 가져오기 */
+			if("".equals(vo.getSearchType()) || vo.getSearchType() == null) {
+				if("".equals(vo.getKeyword()) || vo.getKeyword() == null){
+					list = adminService.getList();
+					count = adminService.getTotalCount();
+				}
+			}else { // 검색 조건이 있을 경우
+				if(!"".equals(vo.getKeyword()) || vo.getKeyword() != null){
+					list = adminService.getList(vo.getKeyword(), vo.getSearchType());
+					count = adminService.getTotalCount(vo.getKeyword(), vo.getSearchType());
+				}
+			}
+		}
+		
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("list", list);
+		map.put("count", count);
+		
+		return JSONResult.success(success ? map : "not exist");
+		//return JSONResult.success("exist");
 	}
 	
 	// 옵션 추가
@@ -113,6 +167,18 @@ public class AdminController {
 		System.out.println("option vo == > " + vo);
 		
 		return JSONResult.success(adminService.addSmallOption(vo) ? "exist" : "not exist");
+		//return JSONResult.success("exist");
+	}
+	
+	// 옵션 선택했을 시 소옵션 리스트 뿌려주기
+	@ResponseBody
+	@RequestMapping(value="/getSmallOption", method=RequestMethod.POST)
+	public JSONResult getSmallOption(@ModelAttribute SmallOptionVO vo) {
+		System.out.println("/getSmallOption soption vo == > " + vo);
+		
+		List<SmallOptionVO> list = adminService.getSmallOptionList(vo.getOptionNo());
+		
+		return JSONResult.success(list);
 		//return JSONResult.success("exist");
 	}
 	

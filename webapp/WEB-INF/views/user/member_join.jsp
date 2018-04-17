@@ -195,13 +195,13 @@
 				}
 				
 				//우편번호
-				if(data['zip1'] == '' || data['zip2'] == ''){
+				/* if(data['zip1'] == '' || data['zip2'] == ''){
 					alert('우편번호를 입력해주세요');
 					
 					// 이 부분은 나중에 바로 링크 열어도 될 듯? window써서
 					$('#zip1').focus();
 					return;
-				}
+				} */
 				
 				// address input 값이 공백일 경우
 				if(data['address'] == ''){
@@ -229,7 +229,7 @@
 								data['birthday3'] ;
 				
 				// zipCode 생성
-				data['zipCode'] = data['zip1'] + '-' + data['zip2'];
+				//data['zipCode'] = data['zip1'] + '-' + data['zip2'];
 				
 				// 전화번호와 핸드폰은 2개중 1개만 있을 때를 구별해줘야함.
 				if(data['tel1'] != '' && data['tel2'] != '' && data['tel3'] != ''){
@@ -395,10 +395,10 @@
 												<input type="text" id="zip2" name='zip2' size = "4" maxlength = "3" value = "634" class="cmfont1"> 
 												<a href="javascript:FindZip(0)"><img align="absmiddle" src="${pageContext.servletContext.contextPath }/assets/images/b_zip.gif" border="0"></a><br>
 												<input type="text" id="address" name='address' size = "50" maxlength = "200" value = "경기도 안양" class="cmfont1"><br> --%>
-												<input type="text" id="sample4_postcode" placeholder="우편번호">
-												<input type="button" onclick="sample4_execDaumPostcode()" value="우편번호 찾기"><br>
-												<input type="text" id="sample4_roadAddress" placeholder="도로명주소">
-												<input type="text" id="sample4_jibunAddress" placeholder="지번주소">
+												<input type="text" id="sample4_postcode" name="zipCode" placeholder="우편번호" readonly>
+												<input type="button" onclick="sample4_execDaumPostcode()" value="우편번호 찾기" readonly><br>
+												<input type="text" id="sample4_roadAddress" name="address" placeholder="도로명주소" readonly>
+												<input type="text" id="sample4_jibunAddress" placeholder="지번주소" readonly>
 												<span id="guide" style="color:#999"></span>
 											</td>
 										</tr>

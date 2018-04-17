@@ -1,0 +1,46 @@
+@charset "UTF-8";
+
+a:hover{
+	
+}
+
+img {
+	border-radius:8px;
+}
+
+.container {
+    position: relative;
+   /*  width: 50%; */
+}
+.image {
+  margin:0;
+  opacity: 1;
+  display: block;
+  width: 130px;
+  height: 130px;
+  transition: .5s ease;
+  backface-visibility: hidden;
+}
+.middle {
+  transition: .5s ease;
+  opacity: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  /* text-align: center; */
+}
+.container:hover .image {
+  opacity: 0.3;
+}
+.container:hover .middle {
+  opacity: 1;
+}
+.text {
+  width:20px;
+  background-color: #CCCCCC;
+  color: white;
+  font-size: 12px;
+  padding: 10px;
+}

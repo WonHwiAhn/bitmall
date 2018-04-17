@@ -24,7 +24,7 @@
 <jsp:include page="/WEB-INF/views/include/admin-menu.jsp"/>
 <hr width='900' size='3'>
 <form name="form1" method="post" action="${pageContext.servletContext.contextPath}/admin/opt_update?no=${vo.no}">
-<table width="500" border="1" cellspacing="0" bordercolordark="white" bordercolorlight="black">
+<table align="center" width="500" border="1" cellspacing="0" bordercolordark="white" bordercolorlight="black">
 	<tr> 
 		<td width="100" height="20" bgcolor="#CCCCCC" align="center">
 			<font color="#142712">옵션번호</font>
@@ -41,7 +41,7 @@
 	</tr>
 </table>
 <br>
-<table width="500" border="0" cellspacing="0" cellpadding="7">
+<table align="center" width="500" border="0" cellspacing="0" cellpadding="7">
 	<tr> 
 		<td align="center">
 			<input type="submit" value="수 정 하 기"> &nbsp;&nbsp

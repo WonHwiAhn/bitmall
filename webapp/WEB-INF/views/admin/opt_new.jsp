@@ -44,7 +44,7 @@
 <hr width='900' size='3'>
 <form id="form1" name="form1" method="post">
 
-<table width="500" border="1" cellspacing="0" bordercolordark="white" bordercolorlight="black">
+<table align="center" width="500" border="1" cellspacing="0" bordercolordark="white" bordercolorlight="black">
 	<tr> 
 		<td width="100" height="20" bgcolor="#CCCCCC" align="center">
 			<font color="#142712">새 옵션명</font>
@@ -56,7 +56,7 @@
 	</tr>
 </table>
 <br>
-<table width="500" border="0" cellspacing="0" cellpadding="7">
+<table align="center" width="500" border="0" cellspacing="0" cellpadding="7">
 	<tr> 
 		<td align="center">
 			<input type="submit" value="등 록 하 기"> &nbsp;&nbsp

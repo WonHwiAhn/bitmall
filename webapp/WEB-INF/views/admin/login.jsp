@@ -29,7 +29,7 @@
 			    </tr>
 				<tr>
 					<td width="106" valign="middle" align="right">&nbsp;<img src="${pageContext.servletContext.contextPath }/assets/images/admin/id.gif" width="20" height="16" border="0"></td>
-					<td width="212" valign='center'>&nbsp;<input type="text" id="admin-id" name="id" maxlength="12" size="14" required></td>
+					<td width="212" valign='center'>&nbsp;<input type="text" id="admin-id" name="admin-id" maxlength="12" size="14" required></td>
 				</tr>
 			    <tr>
 					<td width="106" valign="middle" align="right">&nbsp;<img src="${pageContext.servletContext.contextPath }/assets/images/admin/pw.gif" width="75" height="16" border="0"></td>

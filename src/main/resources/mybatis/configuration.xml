@@ -9,11 +9,25 @@
 		<typeAlias alias="goodsvo" type="com.cafe24.bitmall.vo.GoodsVO"/>
 		<typeAlias alias="optionvo" type="com.cafe24.bitmall.vo.OptionVO"/>
 		<typeAlias alias="smalloptionvo" type="com.cafe24.bitmall.vo.SmallOptionVO"/>
+		<typeAlias alias="imagevo" type="com.cafe24.bitmall.vo.ImageVO"/>
+		<typeAlias alias="iconvo" type="com.cafe24.bitmall.vo.IconVO"/>
+		<typeAlias alias="cartvo" type="com.cafe24.bitmall.vo.CartVO"/>
+		<typeAlias alias="cartdto" type="com.cafe24.bitmall.dto.CartDTO"/>
+		<typeAlias alias="buyvo" type="com.cafe24.bitmall.vo.BuyVO"/>
+		<typeAlias alias="ordergoodsvo" type="com.cafe24.bitmall.vo.OrderGoodsVO"/>
+		<typeAlias alias="jumundto" type="com.cafe24.bitmall.dto.JumunDTO"/>
     </typeAliases>
     		
 	<mappers>
 		<mapper resource="mybatis/mappers/customer.xml" />
 		<mapper resource="mybatis/mappers/admin.xml" />
+		<mapper resource="mybatis/mappers/category.xml" />
+		<mapper resource="mybatis/mappers/goods.xml" />
+		<mapper resource="mybatis/mappers/image.xml" />
+		<mapper resource="mybatis/mappers/icon.xml" />
+		<mapper resource="mybatis/mappers/cart.xml" />
+		<mapper resource="mybatis/mappers/order.xml" />
+		<mapper resource="mybatis/mappers/jumun.xml" />
 	<!-- 	<mapper resource="mybatis/mappers/user.xml" />
 		<mapper resource="mybatis/mappers/guestbook.xml" /> -->
 		<!-- <mapper resource="mybatis/mappers/board.xml" />

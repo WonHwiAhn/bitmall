@@ -91,8 +91,14 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 		// System.out.println("class annotation ==> " + list);
 		
 		// 4. Method에 @Auth가 없는 경우
+		
 		if(auth == null) {
-			return true;
+			// 클래스에도 안붙어 있는지 확인
+			auth = handlerMethod.getMethod().getDeclaringClass().getAnnotation(Auth.class);
+			if(auth == null) {
+				System.out.println("클래스와 메소드에 auth어노테이션 없는거 확인!");
+				return true;
+			}
 		}
 		
 		System.out.println("auth role ==> " + auth.role());
@@ -102,10 +108,10 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 		HttpSession session = request.getSession();
 		
 		if(session == null) {
-			if(!"".equals(userId))
-				response.sendRedirect(request.getContextPath() + File.separator + divUri[2]);
-			else
-				response.sendRedirect(request.getContextPath() + "/user/login");
+			//if(!"".equals(userId))
+			//	response.sendRedirect(request.getContextPath() + File.separator + divUri[2]);
+			//else
+				response.sendRedirect(request.getContextPath() + "/user/member_login");
 			return false;
 		}
 		
@@ -113,10 +119,10 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 		
 		if(authUser == null) {
 			//response.sendRedirect(request.getContextPath() + "/user/login");
-			if(!"".equals(userId))
-				response.sendRedirect(request.getContextPath() + File.separator + divUri[2]);
-			else
-				response.sendRedirect(request.getContextPath() + "/user/login");
+			//if(!"".equals(userId))
+			//	response.sendRedirect(request.getContextPath() + File.separator + divUri[2]);
+			//else
+				response.sendRedirect(request.getContextPath() + "/user/member_login");
 			return false;
 		}
 		

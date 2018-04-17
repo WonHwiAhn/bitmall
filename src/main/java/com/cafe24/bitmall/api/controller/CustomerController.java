@@ -27,7 +27,7 @@ public class CustomerController {
 	@RequestMapping(value="/member_join", method=RequestMethod.POST)
 	public JSONResult list(@RequestBody CustomerVO vo) {
 		System.out.println("controller vo ==> " + vo);
-		
+		System.out.println("/api/member_join zipcode ==> " + vo.getZipCode());
 		if(customerService.join(vo)) {
 			return JSONResult.success("true");
 		}

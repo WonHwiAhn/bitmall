@@ -33,7 +33,9 @@
 					"<td class='member-td-first'>"+vo.phoneNo+"</td>"+
 					"<td class='member-td-second'>"+vo.email+"</td>"+
 					"<td class='member-td-first'>"+auth+"</td>"+
-					"<td class='member-td-first'><a href='${pageContext.servletContext.contextPath }/user/member_modify/"+vo.id+"'>수정</a>/ <a href='#'>삭제</a>"+
+					"<td class='member-td-first'>"+
+					"<a href='${pageContext.servletContext.contextPath }/user/member_modify/"+vo.id+"'>수정</a>/"+
+					"<a href='#' class='member-delete' id='"+vo.no+"'>삭제</a>"+
 					"</td>"+
 					"</tr>";
 			// href을 #처리해놓으면 스크롤이 밑으로 내려갔을 때 맨 위로 올라가는 현상이 발생한다.
@@ -45,14 +47,48 @@
 			}else{
 				$('.member-table-second > tbody').append(html);
 			}
+			
+			
 			// --> 연관배열로 사용가능
 			// $("#list-guestbook")[mode ? "prepend":"append"](html);
 		}
 		
 		$(function(){
+			// member-delete 버튼 클릭시
+			$(document).on("click", ".member-delete", function(){
+					event.preventDefault();
+					
+					var no = $(this)[0].id;
+					console.log(no);
+					var type = $('#searchType').val();
+					var keyword = $('#keyword').val();
+					
+					var data = {
+							"keyword":keyword,
+							"searchType":type,
+							"no" : no
+					}
+					
+					$.ajax({
+						url:"${pageContext.servletContext.contextPath}/api/admin/member_delete",
+						type:"post",
+						data:data,
+						success:function(response){
+							$('.member-table-second > tbody').empty();
+							$.each(response.data.list, function(idx, val){
+								render(true, val);
+							});
+							
+							$('.member-count').html('회원수 : <font>' + response.data.count + '<font>');
+						},
+						error:function(){
+							alert('failed');
+						}
+					}); // end ajax
+			});
 			// submit button 클릭시 submit 할려고 함.
 			$('#submit-data').click(function(){
-				var type = $('#sel1').val();
+				var type = $('#searchType').val();
 				var keyword = $('#keyword').val();
 				var page = $('#page-value').val();
 				
@@ -74,22 +110,26 @@
 					success:function(response){
 						if(response.data != 'nodata'){
 							console.log(response.data.length);
-							// map 이용할 때 console.log(response.data.list[0]);
+							// map 이용할 때 
+							console.log(response.data.count);
+							console.log(response.data.list[0]);
 							
 							$('.member-table-second > tbody').empty();
-							console.log('${test}');
-							$.each(response.data, function(idx, val){
+							//console.log('${test}');
+							// map을 이용하지 않을 때 $.each(response.data, function(idx, val){
+							$.each(response.data.list, function(idx, val){
 								//console.log(val);
 								render(true, val);
 							});
 							
+							$('.member-count').html('회원수 : <font>' + response.data.count + '<font>');
 							
 						}
 					},
 					error:function(){
 						alert('failed');
 					}
-				});
+				}); // end ajax
 			});
 		});
 	</script>
@@ -103,15 +143,16 @@
 		<!-- <form name="form1" method="get" action=""> -->
 			<tr>
 				<td class="member-count">회원수 : 
-					<font>20</font>
+					<font>${count }</font>
 				</td>
 				<td class="member-space"></td>
 				<td class="select-form">
-					<select id="sel1" name="sel1" class="combo1">
-							<option value="1">이름</option>
-							<option value="2">아이디</option>
+					<select id="searchType" name="searchType" class="combo1">
+							<option value="name">이름</option>
+							<option value="id">아이디</option>
+							<option value="ni">이름+아이디</option>
 					</select>
-					<input id="keyword" type="text" name="text1" value="">
+					<input id="keyword" type="text" name="keyword" value="">
 				</td>
 				<td class="search-td">
 					<input type="submit" id="submit-data" value="검색">
@@ -135,8 +176,8 @@
 			</tr>
 		</thead>
 
-		<tbody>
-			<tr class="member-tr-second">
+		
+			<!-- <tr class="member-tr-second">
 				<td class="member-td-first"> id1</td>
 				<td class="member-td-first"> 홍길동</td>
 				<td class="member-td-first"> 02 -123-1234</td>
@@ -145,22 +186,30 @@
 				<td class="member-td-first">회원</td>
 				<td class="member-td-first"><a href="#">수정</a>/ <a href="#">삭제</a>
 				</td>
-			</tr>
+			</tr> -->
+		
+		<tbody>
+			<c:forEach var="vo" items="${list }" varStatus="status">
+	
+				<tr bgcolor="#F2F2F2" height="23">
+					<td width="100">${vo.id }</td>
+					<td width="100">${vo.name }</td>
+					<td width="100">${vo.telNo }</td>
+					<td width="100">${vo.phoneNo }</td>
+					<td width="200">${vo.email }</td>
+					<c:if test="${vo.auth eq 1}">
+						<td width="100" align="center">관리자</td>
+					</c:if>
+					<c:if test="${vo.auth eq 5}">
+						<td width="100" align="center">회원</td>
+					</c:if>
+					<td width="100" align="center">
+						<a href="${pageContext.servletContext.contextPath }/user/member_modify/${vo.id}">수정</a>/ 
+						<a href="#" class="member-delete" id="${vo.no }">삭제</a>
+					</td>
+				</tr>
+			</c:forEach>
 		</tbody>
-
-		<c:forEach var="vo" items="${list }" varStatus="status">
-
-			<tr bgcolor="#F2F2F2" height="23">
-				<td width="100">${vo.id }</td>
-				<td width="100">${vo.name }</td>
-				<td width="100">${vo.phone_number }</td>
-				<td width="100">${vo.handphone }</td>
-				<td width="200">${vo.email }</td>
-				<td width="100" align="center">${vo.type }</td>
-				<td width="100" align="center"><a href="#">수정</a>/ <a href="#">삭제</a>
-				</td>
-			</tr>
-		</c:forEach>
 	</table>
 	<br>
 	<table class="last-table">

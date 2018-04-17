@@ -16,7 +16,7 @@
 <form name="form1" method="get" action="">
 <table class="top-table">
 	<tr class="first">
-		<td class="product-count"> 제품수 : <font>20</font></td>
+		<td class="product-count"> 제품수 : <font>${count }</font></td>
 		<td class="option">
 			<select name="sel1">
 				<option value="0" >상품상태</option>
@@ -63,18 +63,43 @@
 		<td class="product-modify">수정/삭제</td>
 	</tr>
 	
-	<tr class="second">	
-		<td class="category">코트</td>
-		<td class="category-code">Coat001</td>
-		<td class="product-name">비싼 코트</td>	
-		<td class="product-price-content">4,500,000원</td>	
-		<td class="product-status">판매중</td>	
-		<td class="product-event">New Hit Sale(10%)</td>	
-		<td class="product-modify">
-			<a href="product_edit.jsp">수정</a>/
-			<a href="#">삭제</a>
-		</td>
-	</tr>
+	<c:forEach items="${list}" begin="0" step="1" var="vo" varStatus="status">
+		<tr class="second">	
+			<c:forEach items="${categoryList}" var="category">
+				<c:if test="${category.no eq vo.categoryNo }">
+					<td class="category">${category.name }</td>
+					<td class="category-code">${category.no }</td>
+				</c:if>
+			</c:forEach>
+			<td class="product-name">${vo.name}</td>	
+			<td class="product-price-content">${vo.price }</td>	
+			<c:if test="${vo.status eq 1}">
+				<td class="product-status">판매중</td>
+			</c:if>
+			<c:if test="${vo.status == 2}">
+				<td class="product-status">판매중지</td>
+			</c:if>
+			<c:if test="${vo.status == 3}">
+				<td class="product-status">품절</td>
+			</c:if>
+			<td>
+			<c:forEach items="${iconList}" var="icon">
+				<c:forTokens items="${vo.iconData }" delims="-" var="item">
+				    <c:if test="${item eq icon.no}">
+				    	<%-- ${icon.name } --%>
+				    	<img src="${pageContext.servletContext.contextPath}/${icon.src}">
+				    	<c:if test="${icon.no eq 3 }">(${vo.discount }%)</c:if>
+				    </c:if>
+				</c:forTokens>
+			</c:forEach>
+			</td>
+			<%-- <td class="product-event">New Hit Sale(${vo.discount}%)</td>	 --%>
+			<td class="product-modify">
+				<a href="product_edit.jsp">수정</a>/
+				<a href="#">삭제</a>
+			</td>
+		</tr>
+	</c:forEach>
 </table>
 
 <br>

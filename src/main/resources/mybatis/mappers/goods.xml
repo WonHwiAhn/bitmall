@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="goods">
+	<!-- <select id="getList" parameterType="long" resultType="uservo">
+		<![CDATA[
+			select no, name, content, date_format(reg_date, '%Y-%M')
+			from guestbook]]>
+			<if test="_parameter > 0">
+				<![CDATA[where no < #{_parameter}]]>
+			</if>
+			<![CDATA[
+			order by reg_date desc
+				limit 0, 5
+		]]>
+	</select>	 -->
+	
+	<!-- 상품리스트 소옵션이 없을 경우 추가 -->
+	<insert id="insertGoodsNosopt" parameterType="goodsvo" useGeneratedKeys="true" keyProperty="no">
+		<![CDATA[
+			INSERT INTO goods
+			VALUES (null, #{code}, #{name}, #{price}, #{maker}, #{description}, #{status}, #{iconData}, #{discount}, #{categoryNo}, #{optionNo}, null)
+		]]>
+		<!-- <selectKey keyProperty="no" resultType="long" order="AFTER">
+			SELECT last_insert_id()
+		</selectKey> -->
+	</insert>
+	
+	<!-- 상품리스트 소옵션이 있는 경우 추가 -->
+	<insert id="insertGoods" parameterType="goodsvo" useGeneratedKeys="true" keyProperty="no">
+		<![CDATA[
+			INSERT INTO goods
+			VALUES (null, #{code}, #{name}, #{price}, #{maker}, #{description}, #{status}, #{iconData}, #{discount}, #{categoryNo}, #{optionNo}, #{soptionData})
+		]]>
+		<!-- <selectKey keyProperty="no" resultType="long" order="AFTER">
+			<![CDATA[
+				select last_insert_id()	
+			]]>
+		</selectKey> -->
+	</insert>
+	
+	<!-- 상품리스트 총 리스트 -->
+	<select id="getList" resultType="goodsvo">
+		SELECT no, code, name, price, maker, description, status, icon_info as iconData, discount,category_no as categoryNo, option_no as optionNo, small_option as soptionData
+		  FROM goods
+		 ORDER BY no DESC
+	</select>
+	
+	<!-- 상품 총 개수 -->
+	<select id="getProductCount" resultType="int">
+		SELECT count(*)
+		  FROM goods
+	</select>
+	
+	<!-- 상품 정보 1개 -->
+	<select id="getInfo" resultType="goodsvo">
+		SELECT no, code, name, price, maker, description, status, icon_info as iconData, discount, category_no as categoryNo, option_no as optionNo , small_option as soptionData
+		  FROM goods
+		 WHERE no = #{no}
+	</select>
+</mapper>
+
+

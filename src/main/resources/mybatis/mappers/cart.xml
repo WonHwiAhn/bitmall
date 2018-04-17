@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cart">
+	<!-- 카트에 이미 똑같은 옵션이 있는지 없는지 체크 -->
+	<select id="checkOption" parameterType="cartvo" resultType="cartvo">
+		<![CDATA[
+			SELECT count, `status`, `option`, goods_no as goodsNo, customer_no as customerNo, order_no as orderNo
+			  FROM cart
+			 WHERE `option` = #{option}
+			   AND customer_no = #{customerNo}
+			   AND goods_no = #{goodsNo}
+			   AND `status` = 0
+		]]>
+	</select>	
+	
+	<!-- 장바구니에 아이템 추가 -->
+	<insert id="addItem" parameterType="cartvo">
+		INSERT INTO cart(count, `status`, `option`, goods_no, customer_no)
+		VALUES(#{count}, #{status}, #{option}, #{goodsNo}, #{customerNo})
+	</insert>
+	
+	<!-- 장바구니 리스트 가져오는 쿼리 -->
+	<select id="getItems" parameterType="long" resultType="cartdto">
+	SELECT B.no as no, substring_index(B.src, '*', 1) as src, B.name as name, A.`option` as `option`, A.count as count,
+	   	   B.price as price, (B.price * A.count) as totalCount, A.goods_no as goodsNo
+      FROM cart A
+    LEFT OUTER JOIN (SELECT B.no as no, A.src as src, B.name as name, B.price as price
+				       FROM (SELECT A.goods_no as no, B.src as src 
+				               FROM cart A, image B
+				              WHERE A.goods_no = B.goods_no AND A.customer_no=#{no} AND A.status = 0) A
+    LEFT OUTER JOIN (SELECT B.no as no, B.name as name, IF(B.discount=0, B.price, (B.price - B.price * B.discount/100)) as price 
+				       FROM cart A, goods B
+				      WHERE A.goods_no = B.no AND A.customer_no=#{no} AND A.status = 0) 
+               B ON A.no = B.no) 
+               B ON A.goods_no = B.no 
+      WHERE A.customer_no = #{no} AND A.status = 0;
+ 	</select>
+ 	
+ 	<!-- 카트 안에 있는 아이템 상태 변경 쿼리 -->
+ 	<update id="updateStatus" parameterType="long">
+ 		UPDATE cart SET `status`=1 WHERE customer_no = #{no}
+ 	</update>
+</mapper>

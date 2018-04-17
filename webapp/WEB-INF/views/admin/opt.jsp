@@ -35,7 +35,7 @@
 		}
 		
 		$(document).on("click", ".delete-option", function(){
-		$('.delete-option').click(function(){
+		//$('.delete-option').click(function(){
 			//event.preventDefault();
 			console.log($(this)[0].id);
 			var no = $(this)[0].id;
@@ -57,11 +57,11 @@
 					
 				},
 				error:function(){
-					alert('failed');
+					alert('소옵션이 존재하여 삭제가 불가능합니다.');
 				}
 				}); // end ajax
  			});
-		});
+		//});
 	});
 		
 	</script>

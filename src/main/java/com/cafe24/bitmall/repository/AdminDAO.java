@@ -17,6 +17,11 @@ public class AdminDAO {
 	private SqlSession sqlSession;
 	
 	// 키워드 있을 때 리스트 구하는 쿼리
+	public List<CustomerVO> getList(){
+		return sqlSession.selectList("admin.getListNo");
+	}
+	
+	// 키워드 있을 때 리스트 구하는 쿼리
 	public List<CustomerVO> getList(HashMap<String, String> map){
 		System.out.println("DAO map ==> " + map );
 		return sqlSession.selectList("admin.getList", map);
@@ -25,6 +30,22 @@ public class AdminDAO {
 	// 키워드 없을 때 리스트 구하는 쿼리
 	public List<CustomerVO> getList(int page){
 		return sqlSession.selectList("admin.getListInt", page);
+	}
+	
+	// 회원 수 구해오는 쿼리
+	public int getTotalCount() {
+		return sqlSession.selectOne("admin.getCustomerTotalCountNoOption");
+	}
+	
+	// 회원 수 구해오는 쿼리
+	public int getTotalCount(HashMap<String, String> map) {
+		return sqlSession.selectOne("admin.getCustomerTotalCount", map);
+	}
+	
+	// 회원 삭제
+	public boolean deleteMember(Long no) {
+		int count = sqlSession.delete("admin.deleteMember", no);
+		return count == 1;
 	}
 	
 	/****************************************
@@ -54,6 +75,11 @@ public class AdminDAO {
 	}
 	
 	// 옵션 번호를 통해서 옵션 정보 가져오기
+	public List<OptionVO> getOptionInfo(Long no) {
+		return sqlSession.selectList("admin.getOptionInfoLong", no);
+	}
+	
+	// 옵션 번호를 통해서 옵션 정보 가져오기
 	public boolean updateOption(OptionVO vo) {
 		int count = sqlSession.update("admin.updateOption", vo);
 		return count == 1;
@@ -68,8 +94,13 @@ public class AdminDAO {
 	/****************************************
 	 * 소옵션
 	 ****************************************/
-	// 소옵션 리스트 구하기
+	// 소옵션 리스트 구하기 --> 소옵션 번호로 구하는 것!
 	public List<SmallOptionVO> getSmallOptionList(int no) {
+		return sqlSession.selectList("admin.getSmallOptionList", no);
+	}
+	
+	// 소옵션 리스트 구하기 --> 옵션 번호로 구하는 것!
+	public List<SmallOptionVO> getSmallOptionList(Long no) {
 		return sqlSession.selectList("admin.getSmallOptionList", no);
 	}
 	
@@ -98,6 +129,15 @@ public class AdminDAO {
 	// 소옵션 추가 쿼리
 	public boolean addSmallOption(SmallOptionVO vo) {
 		int count = sqlSession.insert("admin.addSmallOption", vo);
+		return count == 1;
+	}
+	
+	/****************************************
+	 * 상품 & 소옵션 데이터 넣기
+	 ****************************************/
+	
+	public boolean insertGoodsSmallOption(HashMap<String, Long> map) {
+		int count = sqlSession.insert("admin.insertGoodsSmallOption", map);
 		return count == 1;
 	}
 }
